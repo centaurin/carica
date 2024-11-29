@@ -4,6 +4,7 @@
 	import { getSerwist } from "virtual:serwist";
 	import { isColorScheme } from "$lib/utils";
 	import { colorScheme } from "$lib/stores/colorScheme";
+	import { onNavigate } from "$app/navigation";
 
 	$effect(() => {
 		const registerSerwist = async () => {

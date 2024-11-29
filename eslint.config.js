@@ -11,6 +11,9 @@ export default ts.config(
 	prettier,
 	...svelte.configs["flat/prettier"],
 	{
+		rules: {
+			"@typescript-eslint/no-unused-expressions": "off"
+		},
 		languageOptions: {
 			globals: {
 				...globals.browser,
@@ -20,7 +23,6 @@ export default ts.config(
 	},
 	{
 		files: ["**/*.svelte"],
-
 		languageOptions: {
 			parserOptions: {
 				parser: ts.parser

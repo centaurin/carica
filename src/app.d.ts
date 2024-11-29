@@ -10,7 +10,9 @@ declare global {
 			session: Session | null;
 		}
 		// interface PageData {}
-		// interface PageState {}
+		interface PageState {
+			history_lastOpened?: number | undefined;
+		}
 		// interface Platform {}
 	}
 }

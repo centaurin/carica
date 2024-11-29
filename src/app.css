@@ -6,6 +6,10 @@
 @variant hover (&:hover);
 @variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
+@view-transition {
+	navigation: auto;
+}
+
 @layer base {
 	*,
 	::after,
@@ -16,7 +20,7 @@
 	}
 	html,
 	body {
-		@apply h-full overflow-hidden;
+		@apply h-full w-full;
 	}
 	body {
 		@apply bg-white font-sans font-normal text-black dark:bg-black dark:text-white;
