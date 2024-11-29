@@ -10,6 +10,14 @@
 	navigation: auto;
 }
 
+@theme {
+	--color-divide-light: #dbdbd9;
+	--color-divide-dark: #3e3e3c;
+	--color-neutral-250: #dddddd;
+	--color-nav-light: #e7e7e5;
+	--color-nav-dark: #292927;
+}
+
 @layer base {
 	*,
 	::after,
@@ -18,11 +26,22 @@
 	::file-selector-button {
 		border-color: var(--color-gray-200, currentColor);
 	}
-	html,
-	body {
-		@apply h-full w-full;
+}
+
+@utility nav-button {
+	& {
+		@apply hover:bg-[#cececc]/80 dark:hover:bg-[#41413F]/80 flex cursor-pointer items-center justify-center rounded-full bg-transparent p-3 duration-100;
 	}
-	body {
-		@apply bg-white font-sans font-normal text-black dark:bg-black dark:text-white;
+}
+
+@utility visible-dark {
+	& {
+		@apply !invisible !hidden dark:!visible dark:!block;
+	}
+}
+
+@utility visible-light {
+	& {
+		@apply !visible !block dark:!invisible dark:!hidden;
 	}
 }

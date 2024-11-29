@@ -9,3 +9,18 @@ import type { ColorScheme } from "./types";
  */
 export const isColorScheme = (value?: string): value is ColorScheme =>
 	typeof value === "string" && COLOR_SCHEMES.includes(value as ColorScheme);
+
+/**
+ * Checks whether the current link is active.
+ *
+ * @param link
+ * @param pathname
+ * @returns
+ */
+export const isLinkActive = (link: string, pathname: string) => {
+	if (pathname === "/") {
+		return link === "/";
+	}
+	const pathnameFirstSegment = pathname.slice(0, pathname.indexOf("/", 1));
+	return !!pathnameFirstSegment && link.startsWith(pathnameFirstSegment);
+};
