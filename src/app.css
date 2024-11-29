@@ -1,0 +1,24 @@
+@import "tailwindcss";
+@source "app.html";
+@plugin "@tailwindcss/typography";
+@plugin "@tailwindcss/forms";
+
+@variant hover (&:hover);
+@variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@layer base {
+	*,
+	::after,
+	::before,
+	::backdrop,
+	::file-selector-button {
+		border-color: var(--color-gray-200, currentColor);
+	}
+	html,
+	body {
+		@apply h-full overflow-hidden;
+	}
+	body {
+		@apply bg-white font-sans font-normal text-black dark:bg-black dark:text-white;
+	}
+}
