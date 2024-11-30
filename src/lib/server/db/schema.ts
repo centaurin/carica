@@ -1,4 +1,4 @@
-import { index, integer, pgTable, real, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
+import { index, integer, pgTable, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
 
 export const users = pgTable(
 	"users",
@@ -31,10 +31,16 @@ export const photos = pgTable(
 			.notNull()
 			.references(() => users.id, { onDelete: "cascade" }),
 		type: text("type").notNull(),
-		content: text("content").notNull(),
-		fileType: text("file_type").notNull(),
-		description: text("description").notNull(),
-		quality: real("quality").notNull(),
+		quality: text("quality").notNull(),
 	},
 	(table) => [index("photos_user_idx").on(table.userId), index("photos_type_idx").on(table.type)]
 );
+
+export const photo = pgTable("photo", {
+	id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+	groupId: integer("group_id")
+		.notNull()
+		.references(() => photos.id, { onDelete: "cascade" }),
+	fileType: text("file_type").notNull(),
+	content: text("content").notNull(),
+});

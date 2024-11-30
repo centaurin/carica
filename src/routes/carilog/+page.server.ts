@@ -11,8 +11,8 @@ export const load = async (event) => {
 		.select({
 			id: photos.id,
 			type: photos.type,
-			content: photos.content,
-			fileType: photos.fileType,
+			// content: photos.content,
+			// fileType: photos.fileType,
 		})
 		.from(photos)
 		.where(eq(photos.userId, event.locals.user.id));
