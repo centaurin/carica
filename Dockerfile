@@ -11,9 +11,13 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm i -g pnpm
 
-RUN --mount=type=secret,id=GITHUB_CLIENT_ID,env=GITHUB_CLIENT_ID \
---mount=type=secret,id=GITHUB_CLIENT_SECRET,env=GITHUB_CLIENT_SECRET \
-pnpm build
+# Empty value to bypass svelte's env check while building
+ENV DATABASE_URL=""
+ENV GITHUB_CLIENT_ID=""
+ENV GITHUB_CLIENT_SECRET=""
+ENV MODEL_URL=""
+
+RUN pnpm build
 
 FROM node:22-alpine AS runtime
 WORKDIR /app
