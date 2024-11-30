@@ -3,6 +3,6 @@
 </script>
 
 <form method="POST" action="?/push" enctype="multipart/form-data" use:enhance>
-	<input type="file" name="content" />
+	<input type="file" name="file" multiple />
 	<button type="submit">submit</button>
 </form>

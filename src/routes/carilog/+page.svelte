@@ -205,14 +205,14 @@
 					{#each photos as photo, idx}
 						{@const isCurrentViewed = currentViewed === idx}
 						<div class="flex h-full min-w-0 flex-[0_0_100%] items-center justify-center">
-							<img
+							<!-- <img
 								src="data:{photo.fileType};base64,{photo.content}"
 								class="max-h-full max-w-full object-contain select-none"
 								style:view-transition-name={isCurrentViewed ? `photo-${idx}` : undefined}
 								alt="Carica Papaya (Good quality)"
 								decoding="async"
 								loading="lazy"
-							/>
+							/> -->
 						</div>
 					{/each}
 				</div>
@@ -229,7 +229,7 @@
 					use:kbdblclick={() => switchOpenTarget(idx)}
 				>
 					<span class="relative h-4/5 w-4/5">
-						<img
+						<!-- <img
 							src="data:{photo.fileType};base64,{photo.content}"
 							class={clsx(
 								"absolute top-1/2 left-1/2 mx-auto h-fit max-h-full w-fit max-w-full -translate-x-1/2 -translate-y-1/2 object-contain outline-offset-[1px] select-none",
@@ -239,7 +239,7 @@
 							alt="Carica Papaya (Good quality)"
 							decoding="async"
 							loading="eager"
-						/>
+						/> -->
 					</span>
 				</button>
 			{/each}
