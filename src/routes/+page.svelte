@@ -1,9 +1,8 @@
 <script lang="ts">
-	let container = $state<HTMLDivElement | null>(null);
-	// let canvas = $state<HTMLCanvasElement | null>(null);
+	import { enhance } from "$app/forms";
 </script>
 
-<div class="relative h-fit w-full" bind:this={container}>
-	<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-	</div>
-</div>
+<form method="POST" action="?/push" enctype="multipart/form-data" use:enhance>
+	<input type="file" name="content" />
+	<button type="submit">submit</button>
+</form>

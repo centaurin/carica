@@ -69,7 +69,16 @@
 		<ul class="flex flex-col gap-2">
 			{#each links as { label, link, isActive }}
 				<li class="text-lg font-semibold">
-					<a href={link} aria-current={isActive}>
+					<a
+						class={clsx(
+							"transition-colors duration-150",
+							isActive
+								? "text-black dark:text-white"
+								: "text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white"
+						)}
+						href={link}
+						aria-current={isActive}
+					>
 						{label}
 					</a>
 				</li>
