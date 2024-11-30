@@ -24,6 +24,7 @@
 		/>
 	</symbol>
 	<symbol viewBox="0 0 98 96" id="github">
+		<title>GitHub</title>
 		<path
 			fill-rule="evenodd"
 			clip-rule="evenodd"

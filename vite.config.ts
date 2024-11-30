@@ -59,7 +59,8 @@ const serwist = (): Plugin[] => {
 		globPatterns: [
 			// Static assets.
 			"client/**/*.{js,css,ico,jpeg,png,svg,webp,json,webmanifest}",
-			"prerendered/pages/**/*.html",
+			// Enable when we have prerendered pages.
+			// "prerendered/pages/**/*.html",
 			// Enable when we have server data.
 			// "prerendered/dependencies/**/__data.json",
 		],
@@ -144,6 +145,7 @@ const serwist = (): Plugin[] => {
 };
 
 export default defineConfig({
+	// @ts-expect-error Mismatched Vite?
 	plugins: [enhancedImages(), sveltekit(), tailwindcss(), serwist()],
 	test: {
 		include: ["src/**/*.{test,spec}.{js,ts}"],

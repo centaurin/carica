@@ -15,6 +15,7 @@
 	height="100%"
 	aria-hidden="true"
 	tabindex={-1}
+	inert
 >
 	<use href="#{systemImage}" />
 </Svg>

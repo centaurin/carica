@@ -19,4 +19,11 @@ declare global {
 	}
 }
 
+declare module "svelte/elements" {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	interface SVGAttributes<_> {
+		inert?: boolean;
+	}
+}
+
 export {};
