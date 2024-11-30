@@ -1,5 +1,6 @@
 import { db } from "$lib/server/db/index.js";
-import { photos } from "$lib/server/db/schema.js";
+import { photo, photos } from "$lib/server/db/schema.js";
+import { jsonAggBuildObject } from "$lib/server/utils.js";
 import { redirect } from "@sveltejs/kit";
 import { eq } from "drizzle-orm";
 
@@ -11,11 +12,17 @@ export const load = async (event) => {
 		.select({
 			id: photos.id,
 			type: photos.type,
-			// content: photos.content,
-			// fileType: photos.fileType,
+			quality: photos.quality,
+			photos: jsonAggBuildObject({
+				fileType: photo.id,
+				content: photo.content,
+			}),
 		})
 		.from(photos)
+		.leftJoin(photo, eq(photo.groupId, photos.id))
+		.groupBy(photos.id, photos.type)
 		.where(eq(photos.userId, event.locals.user.id));
+	console.log(data.map(e => e.photos[0]));
 	return {
 		data,
 	};
