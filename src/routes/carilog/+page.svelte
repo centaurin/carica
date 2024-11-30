@@ -14,7 +14,7 @@
 	let currentViewed = $state<number | undefined>(undefined);
 	let emblaApi = $state<EmblaCarouselType | null>(null);
 	const photos = $derived(data.data);
-	const lastOpened = $derived($page.state.history_lastOpened);
+	const lastOpened = $derived($page.state.carilog_lastOpened);
 
 	$effect(() => void (currentViewed = lastOpened));
 
@@ -57,13 +57,13 @@
 		if (!document.startViewTransition) {
 			if (currentViewed) lastFocused = currentViewed;
 			pushState("", {
-				history_lastOpened: openTarget
+				carilog_lastOpened: openTarget
 			});
 		} else {
 			document.startViewTransition(async () => {
 				if (currentViewed) lastFocused = currentViewed;
 				pushState("", {
-					history_lastOpened: openTarget
+					carilog_lastOpened: openTarget
 				});
 				await tick();
 			});
@@ -76,11 +76,11 @@
 <div
 	class={clsx(
 		"relative h-full w-full",
-		lastOpened === undefined && "flex flex-row-reverse flex-wrap-reverse gap-0.5 overflow-auto p-10"
+		lastOpened === undefined && "flex flex-row flex-wrap gap-0.5 overflow-auto p-10"
 	)}
 >
 	{#if lastOpened !== undefined}
-		{#if currentViewed !== undefined && currentViewed < photos.length - 1}
+		{#if currentViewed !== undefined && currentViewed > 0}
 			<div
 				class="group absolute top-1/2 left-0 z-10 flex h-4/5 -translate-y-1/2 items-center px-12"
 			>
@@ -89,14 +89,14 @@
 						"size-8 cursor-default rounded-sm py-1.5 pr-1 pl-0.5 transition-opacity duration-150 active:brightness-75",
 						"text-[#3b3b3b]/80 opacity-0 group-hover:bg-white/60 group-hover:opacity-100"
 					)}
-					onclick={() => emblaApi?.scrollNext()}
+					onclick={() => emblaApi?.scrollPrev()}
 				>
 					<Image systemImage="chevron.backward" />
-					<span class="sr-only">See next photo</span>
+					<span class="sr-only">See previous photo</span>
 				</button>
 			</div>
 		{/if}
-		{#if currentViewed !== undefined && currentViewed > 0}
+		{#if currentViewed !== undefined && currentViewed < photos.length - 1}
 			<div
 				class="group absolute top-1/2 right-0 z-10 flex h-4/5 -translate-y-1/2 items-center px-12"
 			>
@@ -105,10 +105,10 @@
 						"size-8 cursor-default rounded-sm py-1.5 pr-0.5 pl-1 transition-opacity duration-150 active:brightness-75",
 						"text-[#3b3b3b]/80 opacity-0 group-hover:bg-white/60 group-hover:opacity-100"
 					)}
-					onclick={() => emblaApi?.scrollPrev()}
+					onclick={() => emblaApi?.scrollNext()}
 				>
 					<Image systemImage="chevron.forward" />
-					<span class="sr-only">See previous photo</span>
+					<span class="sr-only">See next photo</span>
 				</button>
 			</div>
 		{/if}
@@ -118,7 +118,6 @@
 				options: {
 					align: "start",
 					containScroll: false,
-					direction: "rtl",
 					dragFree: true,
 					startIndex: lastOpened,
 					watchResize: false
@@ -127,7 +126,7 @@
 			}}
 			onemblaInit={onEmbiaInit}
 		>
-			<div class="flex h-full flex-row-reverse">
+			<div class="flex h-full flex-row">
 				{#each photos as photo, idx}
 					{@const isCurrentViewed = currentViewed === idx}
 					<div class="flex h-full min-w-0 flex-[0_0_100%] items-center justify-center">
@@ -149,7 +148,7 @@
 		{#each photos as photo, idx}
 			<!-- svelte-ignore a11y_autofocus -->
 			<button
-				class="flex aspect-square h-fit w-[calc((100%-0.25rem)/3)] md:w-[calc((100%-0.5rem)/5)] lg:w-[calc((100%-1rem)/9)] items-center justify-center overflow-hidden select-none"
+				class="flex aspect-square h-fit w-[calc((100%-0.25rem)/3)] items-center justify-center overflow-hidden select-none md:w-[calc((100%-0.5rem)/5)] lg:w-[calc((100%-1rem)/9)]"
 				aria-label="Image"
 				onclick={() => (lastFocused = idx)}
 				autofocus={lastFocused === idx}

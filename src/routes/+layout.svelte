@@ -5,11 +5,10 @@
 	import { isColorScheme } from "$lib/utils";
 	import { colorScheme } from "$lib/stores/colorScheme";
 	import SvgBarrel from "$components/icons/index.svelte";
-	import Navbar from "$components/layouts/Navbar.svelte";
+	import Sidebar from "$components/layouts/Sidebar.svelte";
+	import SidebarTrigger from "$components/layouts/SidebarTrigger.svelte";
 
 	let { children } = $props();
-
-	let navbarHeight = $state(65);
 
 	$effect(() => {
 		const registerSerwist = async () => {
@@ -38,8 +37,9 @@
 <div
 	class="divide-divide-light dark:divide-divide-dark flex h-full w-full flex-col md:flex-row md:divide-x"
 >
-	<Navbar bind:height={navbarHeight} />
-	<main class="flex-1 w-full h-full md:contents pb-(--nav-height)" style="--nav-height:{navbarHeight}px">
+	<Sidebar />
+	<main class="h-full w-full flex-1 md:contents">
+		<SidebarTrigger />
 		{@render children()}
 	</main>
 </div>

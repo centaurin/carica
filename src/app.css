@@ -16,6 +16,13 @@
 	--color-neutral-250: #dddddd;
 	--color-nav-light: #e7e7e5;
 	--color-nav-dark: #292927;
+	--animate-fly: fly 100ms ease-out;
+	@keyframes fly {
+		from: {
+			opacity: 0;
+			transform: translateY(-1rem);
+		}
+	}
 }
 
 @layer base {
@@ -26,11 +33,28 @@
 	::file-selector-button {
 		border-color: var(--color-gray-200, currentColor);
 	}
+	details > summary {
+		@apply cursor-pointer list-none select-none;
+	}
+	details > summary::-webkit-details-marker {
+		@apply hidden;
+	}
+
+	#nav:popover-open {
+		@apply flex flex-col;
+		@starting-style {
+			@apply translate-y-full;
+		}
+	}
+
+	:root:has(:popover-open) main {
+		@apply scale-95 transition-transform duration-400;
+	}
 }
 
 @utility nav-button {
 	& {
-		@apply hover:bg-[#cececc]/80 dark:hover:bg-[#41413F]/80 flex cursor-pointer items-center justify-center rounded-full bg-transparent p-3 duration-100;
+		@apply flex cursor-pointer items-center justify-center rounded-full bg-transparent p-3 duration-100 hover:bg-[#cececc]/80 dark:hover:bg-[#41413F]/80;
 	}
 }
 

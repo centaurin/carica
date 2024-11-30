@@ -9,9 +9,11 @@ declare global {
 			user: User | null;
 			session: Session | null;
 		}
-		// interface PageData {}
+		interface PageData {
+			user: Pick<User, "id" | "githubId" | "username"> | null;
+		}
 		interface PageState {
-			history_lastOpened?: number | undefined;
+			carilog_lastOpened?: number | undefined;
 		}
 		// interface Platform {}
 	}
