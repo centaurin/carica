@@ -55,3 +55,6 @@ jobs:
           labels: ${{ steps.extract_metadata.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          secret-envs: |
+            GITHUB_CLIENT_ID = ${{ secrets.CLIENT_ID }}
+            GITHUB_CLIENT_SECRET = ${{ secrets.CLIENT_SECRET }}
