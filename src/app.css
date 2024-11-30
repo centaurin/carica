@@ -54,6 +54,17 @@
 	:root:has(:popover-open) main {
 		@apply scale-95 transition-transform duration-400;
 	}
+
+	@media (prefers-reduced-motion) {
+		html {
+			@apply !animate-none !scroll-auto !transition-none;
+		}
+		html *,
+		html *:before,
+		html *:after {
+			@apply !animate-[inherit] !transition-[inherit];
+		}
+	}
 }
 
 @utility nav-button {

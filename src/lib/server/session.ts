@@ -84,6 +84,7 @@ export const setSessionTokenCookie = (
 	event.cookies.set("session", token, {
 		httpOnly: true,
 		path: "/",
+		secure: false,
 		sameSite: "lax",
 		expires: expiresAt,
 	});
@@ -93,6 +94,7 @@ export const deleteSessionTokenCookie = (event: RequestEvent): void => {
 	event.cookies.set("session", "", {
 		httpOnly: true,
 		path: "/",
+		secure: false,
 		sameSite: "lax",
 		maxAge: 0,
 	});
