@@ -121,18 +121,18 @@
 			</h3>
 		</div>
 		{#if lastOpened === undefined}
-			<div class="relative z-10 -mt-px h-fit w-full overflow-x-auto py-2">
+			<div class="bg-nav-light dark:bg-nav-dark relative z-10 -mt-px h-fit w-full overflow-x-auto py-2">
 				<div class="pointer-events-none absolute top-0 left-0 -z-1 h-full w-full">
 					<div
 						class={clsx(
-							"bg-nav-light dark:bg-nav-dark border-divide-light dark:border-divide-dark absolute right-2 left-0 h-full w-[250px]",
-							"translate-x-[calc(var(--idx)*250px)] border border-t-0 transition-transform",
-							selectedCategory === null ? "rounded-br-[12px] border-l-0" : "rounded-b-[12px] border"
+							"bg-body-light dark:bg-body-dark border-divide-light dark:border-divide-dark absolute right-2 left-0 h-full w-[250px]",
+							"translate-x-[calc(var(--idx)*250px)] border border-b-0 transition-transform",
+							selectedCategory === null ? "rounded-tr-[12px] border-l-0" : "rounded-t-[12px] border"
 						)}
 						style:--idx={selectedCategoryIndex + 1}
 					>
-						<div class="indicator-part left-0 -translate-x-full"></div>
-						<div class="indicator-part right-0 translate-x-full -scale-x-100"></div>
+						<div class="indicator-part bottom-0 left-0 -translate-x-full -scale-x-100"></div>
+						<div class="indicator-part bottom-0 right-0 translate-x-full"></div>
 					</div>
 				</div>
 				<div class="flex w-max list-none flex-row" role="tablist" aria-orientation="horizontal">

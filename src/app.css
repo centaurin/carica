@@ -16,6 +16,8 @@
 	--color-neutral-250: #dddddd;
 	--color-nav-light: #e7e7e5;
 	--color-nav-dark: #292927;
+	--color-body-light: #ffffff;
+	--color-body-dark: #1e1e1e;
 	--animate-fly: fly 100ms ease-out;
 	@keyframes fly {
 		from: {
@@ -87,15 +89,15 @@
 
 @utility indicator-part {
 	& {
-		@apply before:bg-nav-light dark:before:bg-nav-dark after:border-divide-light dark:after:border-divide-dark absolute top-0 aspect-square w-[24px];
+		@apply before:bg-body-light dark:before:bg-body-dark after:border-divide-light dark:after:border-divide-dark absolute bottom-0 aspect-square w-[24px];
 	}
 	&::before {
 		@apply absolute -inset-px content-[''];
 		mask: radial-gradient(circle at center, #0000 12px, #000 12px);
-		clip-path: inset(0 0 50% 50%);
+		clip-path: inset(50% 50% 0 0);
 	}
 	&::after {
 		@apply absolute inset-0 rounded-[50%] border content-[''];
-		clip-path: inset(0 0 50% 50%);
+		clip-path: inset(50% 50% 0 0);
 	}
 }
