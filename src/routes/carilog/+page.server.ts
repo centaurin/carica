@@ -2,7 +2,7 @@ import { db } from "$lib/server/db/index.js";
 import { photo, photos } from "$lib/server/db/schema.js";
 import { jsonAggBuildObject } from "$lib/server/utils.js";
 import { redirect } from "@sveltejs/kit";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 
 export const load = async (event) => {
 	if (!event.locals.user || !event.locals.session) {
@@ -21,8 +21,8 @@ export const load = async (event) => {
 		.from(photos)
 		.leftJoin(photo, eq(photo.groupId, photos.id))
 		.groupBy(photos.id, photos.type)
-		.where(eq(photos.userId, event.locals.user.id));
-	console.log(data.map(e => e.photos[0]));
+		.where(eq(photos.userId, event.locals.user.id))
+		.orderBy(desc(photos.id));
 	return {
 		data,
 	};

@@ -1,4 +1,12 @@
 import { GitHub } from "arctic";
-import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } from "$env/static/private";
+import { env } from "$env/dynamic/private";
+import { building } from "$app/environment";
 
-export const github = new GitHub(GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, null);
+export let github: GitHub;
+
+if (!building) {
+	if (!env.GITHUB_CLIENT_ID || !env.GITHUB_CLIENT_SECRET) {
+		throw new Error("GitHub OAuth variables are not set.");
+	}
+	github = new GitHub(env.GITHUB_CLIENT_ID, env.GITHUB_CLIENT_SECRET, null);
+}
