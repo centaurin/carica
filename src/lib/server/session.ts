@@ -19,7 +19,7 @@ export const createSession = async (token: string, userId: number): Promise<Sess
 	const session: Session = {
 		id: sessionId,
 		userId,
-		expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)
+		expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
 	};
 	await db
 		.insert(userSessions)
@@ -36,7 +36,7 @@ export const validateSessionToken = async (token: string): Promise<SessionValida
 			githubId: users.githubId,
 			email: users.email,
 			username: users.username,
-			expiresAt: userSessions.expiresAt
+			expiresAt: userSessions.expiresAt,
 		})
 		.from(userSessions)
 		.innerJoin(users, eq(users.id, userSessions.userId))
@@ -48,13 +48,13 @@ export const validateSessionToken = async (token: string): Promise<SessionValida
 	const session: Session = {
 		id: row.id,
 		userId: row.userId,
-		expiresAt: row.expiresAt
+		expiresAt: row.expiresAt,
 	};
 	const user: User = {
 		id: row.userId,
 		githubId: row.githubId,
 		email: row.email,
-		username: row.username
+		username: row.username,
 	};
 	if (Date.now() >= session.expiresAt.getTime()) {
 		await db.delete(userSessions).where(eq(userSessions.id, session.id));
@@ -65,7 +65,7 @@ export const validateSessionToken = async (token: string): Promise<SessionValida
 		await db
 			.update(userSessions)
 			.set({
-				expiresAt: session.expiresAt
+				expiresAt: session.expiresAt,
 			})
 			.where(eq(userSessions.id, session.id));
 	}
@@ -86,7 +86,7 @@ export const setSessionTokenCookie = (
 		path: "/",
 		secure: import.meta.env.PROD,
 		sameSite: "lax",
-		expires: expiresAt
+		expires: expiresAt,
 	});
 };
 
@@ -96,7 +96,7 @@ export const deleteSessionTokenCookie = (event: RequestEvent): void => {
 		path: "/",
 		secure: import.meta.env.PROD,
 		sameSite: "lax",
-		maxAge: 0
+		maxAge: 0,
 	});
 };
 

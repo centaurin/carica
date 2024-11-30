@@ -13,25 +13,25 @@ const config = {
 		adapter: adapter(),
 		alias: {
 			$components: "./src/components",
-			$images: "./src/images"
+			$images: "./src/images",
 		},
 		csp: {
 			directives: {
 				"script-src": [
 					"self",
 					"strict-dynamic",
-					"sha256-FMxfk74dHfBCYzMIZUQ4Knxy7KC296NL8jB9VY5HicY="
-				]
-			}
+					"sha256-FMxfk74dHfBCYzMIZUQ4Knxy7KC296NL8jB9VY5HicY=",
+				],
+			},
 		},
 		inlineStyleThreshold: 2048,
 		paths: {
-			relative: false
+			relative: false,
 		},
 		serviceWorker: {
-			register: false
-		}
-	}
+			register: false,
+		},
+	},
 };
 
 export default config;

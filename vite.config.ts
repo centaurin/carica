@@ -30,11 +30,11 @@ const buildPlugin = (ctx: SerwistViteContext) => {
 				if (!ctx.options.disable && ctx.viteConfig.build.ssr) {
 					await generateServiceWorker(ctx);
 				}
-			}
+			},
 		},
 		buildEnd(error) {
 			if (error) throw error;
-		}
+		},
 	};
 };
 
@@ -59,7 +59,7 @@ const serwist = (): Plugin[] => {
 		globPatterns: [
 			// Static assets.
 			"client/**/*.{js,css,ico,jpeg,png,svg,webp,json,webmanifest}",
-			"prerendered/pages/**/*.html"
+			"prerendered/pages/**/*.html",
 			// Enable when we have server data.
 			// "prerendered/dependencies/**/__data.json",
 		],
@@ -71,7 +71,7 @@ const serwist = (): Plugin[] => {
 			"client/service-worker.js",
 			"client/favicons/*",
 			"client/screenshots/*",
-			"client/splash/*"
+			"client/splash/*",
 		],
 		injectionPoint: "self.__SW_MANIFEST",
 		integration: {
@@ -131,13 +131,13 @@ const serwist = (): Plugin[] => {
 						});
 
 						return { manifest };
-					}
+					},
 				];
-			}
+			},
 		},
 		// We don't want to version 'client/_app/immutable/**/*' files because they are
 		// already versioned by Vite via their URLs.
-		dontCacheBustURLsMatching: new RegExp(`^client/${buildAssetsDir}immutable/`)
+		dontCacheBustURLsMatching: new RegExp(`^client/${buildAssetsDir}immutable/`),
 	};
 	const ctx = createContext(options, undefined);
 	return [mainPlugin(ctx), buildPlugin(ctx)];
@@ -146,6 +146,6 @@ const serwist = (): Plugin[] => {
 export default defineConfig({
 	plugins: [enhancedImages(), sveltekit(), tailwindcss(), serwist()],
 	test: {
-		include: ["src/**/*.{test,spec}.{js,ts}"]
-	}
+		include: ["src/**/*.{test,spec}.{js,ts}"],
+	},
 });

@@ -4,8 +4,8 @@ export const load = async (event) => {
 			? {
 					id: event.locals.user.id,
 					githubId: event.locals.user.githubId,
-					username: event.locals.user.username
+					username: event.locals.user.username,
 				}
-			: null
+			: null,
 	};
 };

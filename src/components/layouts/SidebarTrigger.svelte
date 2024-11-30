@@ -1,5 +1,5 @@
 <button
-	class="absolute top-0 left-0 z-10 cursor-pointer rounded-e-md bg-white p-2 shadow-md md:hidden dark:bg-nav-dark"
+	class="dark:bg-nav-dark absolute bottom-0 right-0 cursor-pointer isolate z-10 rounded-s-md bg-white p-2 shadow-md md:hidden"
 	popovertarget="nav"
 	popovertargetaction="toggle"
 >

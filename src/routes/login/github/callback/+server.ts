@@ -11,12 +11,12 @@ export const GET = async (event) => {
 	const storedState = event.cookies.get("github_oauth_state") ?? null;
 	if (code === null || state === null || storedState === null) {
 		return new Response(null, {
-			status: 400
+			status: 400,
 		});
 	}
 	if (state !== storedState) {
 		return new Response(null, {
-			status: 400
+			status: 400,
 		});
 	}
 
@@ -26,7 +26,7 @@ export const GET = async (event) => {
 	} catch {
 		// Invalid code or client credentials
 		return new Response(null, {
-			status: 400
+			status: 400,
 		});
 	}
 	const githubAccessToken = tokens.accessToken();
@@ -34,8 +34,8 @@ export const GET = async (event) => {
 		headers: {
 			Accept: "application/vnd.github+json",
 			Authorization: `Bearer ${githubAccessToken}`,
-			"X-GitHub-Api-Version": GITHUB_API_VERSION
-		}
+			"X-GitHub-Api-Version": GITHUB_API_VERSION,
+		},
 	});
 	const githubUser = await githubUserResponse.json();
 	const githubUserParser = new ObjectParser(githubUser);
@@ -49,20 +49,20 @@ export const GET = async (event) => {
 		return new Response(null, {
 			status: 302,
 			headers: {
-				Location: "/"
-			}
+				Location: "/",
+			},
 		});
 	}
 	const emailListResponse = await event.fetch("https://api.github.com/user/emails", {
 		headers: {
 			Authorization: `Bearer ${githubAccessToken}`,
-			"X-GitHub-Api-Version": GITHUB_API_VERSION
-		}
+			"X-GitHub-Api-Version": GITHUB_API_VERSION,
+		},
 	});
 	const emailListResult: unknown = await emailListResponse.json();
 	if (!Array.isArray(emailListResult) || emailListResult.length < 1) {
 		return new Response("Please restart the process.", {
-			status: 400
+			status: 400,
 		});
 	}
 	let email: string | null = null;
@@ -76,7 +76,7 @@ export const GET = async (event) => {
 	}
 	if (email === null) {
 		return new Response("Please verify your GitHub email address.", {
-			status: 400
+			status: 400,
 		});
 	}
 	const user = await createUser(githubUserId, email, githubUsername);
@@ -86,7 +86,7 @@ export const GET = async (event) => {
 	return new Response(null, {
 		status: 302,
 		headers: {
-			Location: "/"
-		}
+			Location: "/",
+		},
 	});
 };

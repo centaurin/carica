@@ -8,12 +8,12 @@ export const GET = async (event) => {
 		path: "/",
 		httpOnly: true,
 		maxAge: 60 * 10,
-		sameSite: "lax"
+		sameSite: "lax",
 	});
 	return new Response(null, {
 		status: 302,
 		headers: {
-			Location: url.toString()
-		}
+			Location: url.toString(),
+		},
 	});
 };

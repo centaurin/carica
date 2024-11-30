@@ -24,3 +24,18 @@ export const isLinkActive = (link: string, pathname: string) => {
 	const pathnameFirstSegment = pathname.slice(0, pathname.indexOf("/", 1));
 	return !!pathnameFirstSegment && link.startsWith(pathnameFirstSegment);
 };
+
+export const groupBy = <K extends PropertyKey, T>(
+	items: T[],
+	callback: (item: T, index: number) => K
+): Partial<Record<K, T[]>> => {
+	return items.reduce(
+		(acc = {}, item, index) => {
+			const key = callback(item, index);
+			acc[key] ??= [];
+			acc[key].push(item);
+			return acc;
+		},
+		{} as Partial<Record<K, T[]>>
+	);
+};

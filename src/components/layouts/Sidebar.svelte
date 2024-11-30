@@ -18,12 +18,12 @@
 				{ label: "Home", link: "/" },
 				...($page.data.user
 					? [{ label: "Carilog", link: "/carilog" }]
-					: [{ label: "Login", link: "/login" }])
+					: [{ label: "Login", link: "/login" }]),
 			] satisfies SidebarLinkEntry[]
 		).map(({ link, ...rest }) => ({
 			link,
 			...rest,
-			isActive: isLinkActive(link, $page.url.pathname)
+			isActive: isLinkActive(link, $page.url.pathname),
 		}))
 	);
 

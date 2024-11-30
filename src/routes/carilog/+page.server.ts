@@ -8,10 +8,15 @@ export const load = async (event) => {
 		redirect(302, "/login");
 	}
 	const data = await db
-		.select({ id: photos.id, content: photos.content })
+		.select({
+			id: photos.id,
+			type: photos.type,
+			content: photos.content,
+			fileType: photos.fileType,
+		})
 		.from(photos)
 		.where(eq(photos.userId, event.locals.user.id));
 	return {
-		data
+		data,
 	};
 };

@@ -28,9 +28,11 @@
 						</span>
 						Sign in with GitHub
 					</a>
-					<span class="block w-full rounded-lg bg-white px-4 py-3 text-black brightness-60 pointer-events-none select-none">
+					<span
+						class="pointer-events-none block w-full rounded-lg bg-white px-4 py-3 text-black brightness-60 select-none"
+					>
 						Sign in with Google
-          </span>
+					</span>
 				</div>
 			</div>
 		</div>

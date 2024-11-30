@@ -38,7 +38,7 @@
 	class="divide-divide-light dark:divide-divide-dark flex h-full w-full flex-col md:flex-row md:divide-x"
 >
 	<Sidebar />
-	<main class="h-full w-full flex-1 md:contents">
+	<main class="flex h-full w-full flex-1 md:contents">
 		<SidebarTrigger />
 		{@render children()}
 	</main>

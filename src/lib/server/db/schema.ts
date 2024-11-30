@@ -6,9 +6,9 @@ export const users = pgTable(
 		id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
 		githubId: integer("github_id").notNull().unique(),
 		email: text("email").notNull().unique(),
-		username: text("username").notNull()
+		username: text("username").notNull(),
 	},
-	(table) => [uniqueIndex("github_id_idx").on(table.githubId)]
+	(table) => [uniqueIndex("users_github_id_idx").on(table.githubId)]
 );
 
 export const userSessions = pgTable(
@@ -18,9 +18,9 @@ export const userSessions = pgTable(
 		userId: integer("user_id")
 			.notNull()
 			.references(() => users.id, { onDelete: "cascade" }),
-		expiresAt: timestamp("expires_at").notNull()
+		expiresAt: timestamp("expires_at").notNull(),
 	},
-	(table) => [index("user_idx").on(table.userId)]
+	(table) => [index("user_sessions_user_idx").on(table.userId)]
 );
 
 export const photos = pgTable(
@@ -30,10 +30,11 @@ export const photos = pgTable(
 		userId: integer("user_id")
 			.notNull()
 			.references(() => users.id, { onDelete: "cascade" }),
-		type: text().notNull(),
-		content: text().notNull(),
-		description: text().notNull(),
-		quality: real().notNull()
+		type: text("type").notNull(),
+		content: text("content").notNull(),
+		fileType: text("file_type").notNull(),
+		description: text("description").notNull(),
+		quality: real("quality").notNull(),
 	},
-	(table) => [index("user_idx").on(table.userId), index("type_idx").on(table.type)]
+	(table) => [index("photos_user_idx").on(table.userId), index("photos_type_idx").on(table.type)]
 );

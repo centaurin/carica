@@ -11,8 +11,12 @@ export async function load(event) {
 	}
 }
 
+const allowedFileTypes = ["image/png", "image/jpeg", "image/gif", "image/webp"];
+
 const pushForm = z.object({
-	content: z.instanceof(File, { message: "Not a valid photo!" })
+	content: z
+		.instanceof(File, { message: "Not a valid photo!" })
+		.refine((file) => allowedFileTypes.includes(file.type), { message: "Not a valid photo!" }),
 });
 
 export const actions = {
@@ -20,20 +24,22 @@ export const actions = {
 		if (!event.locals.user || !event.locals.session) return;
 		const formData = await event.request.formData();
 		const form = await pushForm.spa({
-			content: formData.get("content")
+			content: formData.get("content"),
 		});
 		if (!form.success) {
 			return { validationErrors: form.error.flatten().fieldErrors };
 		}
-		const content = Buffer.from(await form.data.content.arrayBuffer()).toString("base64");
+		const file = form.data.content;
+		const content = Buffer.from(await file.arrayBuffer()).toString("base64");
 		const row = await db
 			.insert(photos)
 			.values({
 				userId: event.locals.user.id,
 				type: "Banana",
 				content,
+				fileType: file.type,
 				description: "A banana is a sus yellow amogus",
-				quality: 0.68
+				quality: 0.68,
 			})
 			.returning({ id: photos.id })
 			.then(takeUniqueOrThrow);
@@ -49,5 +55,5 @@ export const actions = {
 		invalidateSession(event.locals.session.id);
 		deleteSessionTokenCookie(event);
 		redirect(302, "/login");
-	}
+	},
 };

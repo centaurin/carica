@@ -2,7 +2,7 @@ import type { Handle } from "@sveltejs/kit";
 import {
 	validateSessionToken,
 	setSessionTokenCookie,
-	deleteSessionTokenCookie
+	deleteSessionTokenCookie,
 } from "$lib/server/session";
 
 export const handle: Handle = async ({ event, resolve }) => {

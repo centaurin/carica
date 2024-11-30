@@ -20,7 +20,7 @@ export const createUser = async (
 		id: row.id,
 		githubId,
 		email,
-		username
+		username,
 	};
 	return user;
 };
@@ -31,7 +31,7 @@ export const getUserFromGitHubId = async (githubId: number): Promise<User | null
 			id: users.id,
 			githubId: users.githubId,
 			email: users.email,
-			username: users.username
+			username: users.username,
 		})
 		.from(users)
 		.where(eq(users.githubId, githubId))
@@ -43,7 +43,7 @@ export const getUserFromGitHubId = async (githubId: number): Promise<User | null
 		id: row.id,
 		githubId: row.githubId,
 		email: row.email,
-		username: row.username
+		username: row.username,
 	};
 	return user;
 };
