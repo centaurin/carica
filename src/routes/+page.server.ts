@@ -12,7 +12,7 @@ export async function load(event) {
 	}
 }
 
-const allowedFileTypes = ["image/png", "image/jpeg", "image/gif", "image/webp"];
+const allowedFileTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
 
 const photoSchema = z
 	.instanceof(File, { message: "Not a valid photo!" })
@@ -59,18 +59,24 @@ export const actions = {
 			if (row === null) {
 				tx.rollback();
 			}
-			const insertValues = await Promise.all(
-				form.data.content.map(async (file) => {
-					return {
-						groupId: row!.id,
-						fileType: file.type,
-						content: Buffer.from(await file.arrayBuffer()).toString("base64"),
-					} satisfies typeof photo.$inferInsert;
-				})
-			);
+			let insertValues;
+			try {
+				insertValues = await Promise.all(
+					form.data.content.map(async (file) => {
+						return {
+							groupId: row!.id,
+							fileType: file.type,
+							content: Buffer.from(await file.arrayBuffer()).toString("base64"),
+						} satisfies typeof photo.$inferInsert;
+					})
+				);
+			} catch (err) {
+				console.error(err);
+				tx.rollback();
+			}
 			const photosInserted = await tx
 				.insert(photo)
-				.values(insertValues)
+				.values(insertValues!)
 				.returning({ id: photo.id });
 			if (photosInserted.length === 0) {
 				tx.rollback();

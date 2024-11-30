@@ -16,16 +16,14 @@
 	let currentViewed = $state<number | undefined>(undefined);
 	let emblaApi = $state<EmblaCarouselType | null>(null);
 	const lastOpened = $derived($page.state.carilog_lastOpened);
-	const groups = $derived(groupBy(data.data, (photo) => photo.type));
+	const groups = $derived(groupBy(data.data, (entry) => entry.type));
 	const categories = $derived(Object.keys(groups));
 	const selectedCategoryIndex = $derived(
 		selectedCategory ? categories.indexOf(selectedCategory) : -1
 	);
-	const photos = $derived(
+	const entries = $derived(
 		selectedCategory && selectedCategory in groups ? groups[selectedCategory]! : data.data
 	);
-
-	$effect(() => void (currentViewed = lastOpened));
 
 	$effect(() => {
 		if (!emblaApi) return;
@@ -62,21 +60,29 @@
 		}
 	};
 
-	const switchOpenTarget = (openTarget: number | undefined) => {
+	const switchOpenTarget = async (openTarget: number | undefined) => {
 		if (!document.startViewTransition) {
-			if (currentViewed) lastFocused = currentViewed;
+			lastFocused = lastOpened;
 			pushState("", {
 				carilog_lastOpened: openTarget,
 			});
+			await tick();
+			currentViewed = openTarget === undefined ? undefined : 0;
 		} else {
 			document.startViewTransition(async () => {
-				if (currentViewed) lastFocused = currentViewed;
+				lastFocused = lastOpened;
 				pushState("", {
 					carilog_lastOpened: openTarget,
 				});
 				await tick();
+				currentViewed = openTarget === undefined ? undefined : 0;
 			});
 		}
+	};
+
+	const changeCategory = (category: string | null) => {
+		lastFocused = undefined;
+		selectedCategory = category;
 	};
 </script>
 
@@ -102,16 +108,26 @@
 					<span class="sr-only">Return</span>
 				</button>
 			{/if}
-			<h3 class="w-fit px-2 font-semibold" style:view-transition-name="carilog-title">Papaya</h3>
+			<h3 class="w-fit px-2 font-semibold" style:view-transition-name="carilog-title">
+				{#if lastOpened !== undefined}
+					{@const entry = entries[lastOpened]}
+					{entry.type} ({entry.quality})
+				{:else if lastFocused !== undefined}
+					{@const entry = entries[lastFocused]}
+					{entry.type} ({entry.quality})
+				{:else}
+					Carilog
+				{/if}
+			</h3>
 		</div>
 		{#if lastOpened === undefined}
-			<div class="relative z-10 -mt-px h-fit w-full py-2 overflow-x-auto">
+			<div class="relative z-10 -mt-px h-fit w-full overflow-x-auto py-2">
 				<div class="pointer-events-none absolute top-0 left-0 -z-1 h-full w-full">
 					<div
 						class={clsx(
 							"bg-nav-light dark:bg-nav-dark border-divide-light dark:border-divide-dark absolute right-2 left-0 h-full w-[250px]",
 							"translate-x-[calc(var(--idx)*250px)] border border-t-0 transition-transform",
-							selectedCategory === null ? "rounded-br-[12px] border-l-0" : "border rounded-b-[12px]"
+							selectedCategory === null ? "rounded-br-[12px] border-l-0" : "rounded-b-[12px] border"
 						)}
 						style:--idx={selectedCategoryIndex + 1}
 					>
@@ -119,13 +135,13 @@
 						<div class="indicator-part right-0 translate-x-full -scale-x-100"></div>
 					</div>
 				</div>
-				<div class="flex list-none flex-row w-max" role="tablist" aria-orientation="horizontal">
+				<div class="flex w-max list-none flex-row" role="tablist" aria-orientation="horizontal">
 					<button
 						role="tab"
 						class="flex w-[250px] cursor-pointer items-center justify-center select-none"
 						aria-controls="carilog-tab"
 						aria-selected={selectedCategory === null}
-						onclick={() => (selectedCategory = null)}
+						onclick={() => changeCategory(null)}
 					>
 						All
 					</button>
@@ -136,7 +152,7 @@
 							class="flex w-[250px] cursor-pointer items-center justify-center select-none"
 							aria-controls="carilog-tab"
 							aria-selected={selectedCategory === category}
-							onclick={() => (selectedCategory = category)}
+							onclick={() => changeCategory(category)}
 						>
 							{category}
 						</button>
@@ -155,6 +171,7 @@
 		aria-labelledby={categories.map((category) => `carilog-category-${category}-button`).join(",")}
 	>
 		{#if lastOpened !== undefined}
+			{@const entry = entries[lastOpened]}
 			{#if currentViewed !== undefined && currentViewed > 0}
 				<div
 					class="group absolute top-1/2 left-0 z-10 flex h-4/5 -translate-y-1/2 items-center px-12"
@@ -171,7 +188,7 @@
 					</button>
 				</div>
 			{/if}
-			{#if currentViewed !== undefined && currentViewed < photos.length - 1}
+			{#if currentViewed !== undefined && currentViewed < entry.photos.length - 1}
 				<div
 					class="group absolute top-1/2 right-0 z-10 flex h-4/5 -translate-y-1/2 items-center px-12"
 				>
@@ -194,7 +211,6 @@
 						align: "start",
 						containScroll: false,
 						dragFree: true,
-						startIndex: lastOpened,
 						watchResize: false,
 					},
 					plugins: [],
@@ -202,23 +218,23 @@
 				onemblaInit={onEmbiaInit}
 			>
 				<div class="flex h-full flex-row">
-					{#each photos as photo, idx}
+					{#each entry.photos as photo, idx}
 						{@const isCurrentViewed = currentViewed === idx}
 						<div class="flex h-full min-w-0 flex-[0_0_100%] items-center justify-center">
-							<!-- <img
+							<img
 								src="data:{photo.fileType};base64,{photo.content}"
 								class="max-h-full max-w-full object-contain select-none"
-								style:view-transition-name={isCurrentViewed ? `photo-${idx}` : undefined}
+								style:view-transition-name={isCurrentViewed ? `photo-${entry.id}` : undefined}
 								alt="Carica Papaya (Good quality)"
 								decoding="async"
 								loading="lazy"
-							/> -->
+							/>
 						</div>
 					{/each}
 				</div>
 			</div>
 		{:else}
-			{#each photos as photo, idx}
+			{#each entries as entry, idx}
 				<!-- svelte-ignore a11y_autofocus -->
 				<button
 					class="flex aspect-square h-fit w-[calc((100%-0.25rem)/3)] items-center justify-center overflow-hidden select-none md:w-[calc((100%-0.5rem)/5)] lg:w-[calc((100%-1rem)/9)]"
@@ -229,17 +245,17 @@
 					use:kbdblclick={() => switchOpenTarget(idx)}
 				>
 					<span class="relative h-4/5 w-4/5">
-						<!-- <img
-							src="data:{photo.fileType};base64,{photo.content}"
+						<img
+							src="data:{entry.photos[0].fileType};base64,{entry.photos[0].content}"
 							class={clsx(
 								"absolute top-1/2 left-1/2 mx-auto h-fit max-h-full w-fit max-w-full -translate-x-1/2 -translate-y-1/2 object-contain outline-offset-[1px] select-none",
 								lastFocused === idx && "rounded-[0.125rem] outline-3 outline-[#0761d1]"
 							)}
-							style:view-transition-name="photo-{idx}"
+							style:view-transition-name="photo-{entry.id}"
 							alt="Carica Papaya (Good quality)"
 							decoding="async"
 							loading="eager"
-						/> -->
+						/>
 					</span>
 				</button>
 			{/each}
