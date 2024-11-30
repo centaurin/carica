@@ -88,84 +88,82 @@
 
 <svelte:window onkeydown={handleArrowKeys} />
 
-<div class="flex min-h-0 w-full min-w-0 shrink-0 grow-1 basis-0 flex-col">
-	<div class="isolate z-100">
-		<div
-			class={clsx(
-				"bg-nav-light dark:bg-nav-dark flex w-full flex-row items-center backdrop-blur-xl transition-[padding] duration-300 select-none",
-				"border-b-divide-light dark:border-b-divide-dark h-[3.25rem] border-b px-4 text-neutral-700 dark:text-white"
-			)}
-		>
+<div class="bg-nav-light dark:bg-nav-dark flex min-h-0 w-full min-w-0 shrink-0 grow-1 basis-0 flex-col">
+	<div
+		class={clsx(
+			"flex w-full flex-row items-center backdrop-blur-xl transition-[padding] duration-300 select-none",
+			"h-[3.25rem] px-4 text-neutral-700 dark:text-white"
+		)}
+	>
+		{#if lastOpened !== undefined}
+			<button
+				class={clsx(
+					"h-[1.75rem] w-[1.75rem] rounded-sm px-1 py-1.5 text-neutral-400 transition-colors dark:text-[#9e9e9d]",
+					"hover:bg-neutral-300 dark:hover:bg-neutral-700"
+				)}
+				onclick={() => switchOpenTarget(undefined)}
+			>
+				<Image systemImage="chevron.backward" />
+				<span class="sr-only">Return</span>
+			</button>
+		{/if}
+		<h3 class="w-fit px-2 font-semibold" style:view-transition-name="carilog-title">
 			{#if lastOpened !== undefined}
-				<button
-					class={clsx(
-						"h-[1.75rem] w-[1.75rem] rounded-sm px-1 py-1.5 text-neutral-400 transition-colors dark:text-[#9e9e9d]",
-						"hover:bg-neutral-300 dark:hover:bg-neutral-700"
-					)}
-					onclick={() => switchOpenTarget(undefined)}
-				>
-					<Image systemImage="chevron.backward" />
-					<span class="sr-only">Return</span>
-				</button>
+				{@const entry = entries[lastOpened]}
+				{entry.type} ({entry.quality})
+			{:else if lastFocused !== undefined}
+				{@const entry = entries[lastFocused]}
+				{entry.type} ({entry.quality})
+			{:else}
+				Carilog
 			{/if}
-			<h3 class="w-fit px-2 font-semibold" style:view-transition-name="carilog-title">
-				{#if lastOpened !== undefined}
-					{@const entry = entries[lastOpened]}
-					{entry.type} ({entry.quality})
-				{:else if lastFocused !== undefined}
-					{@const entry = entries[lastFocused]}
-					{entry.type} ({entry.quality})
-				{:else}
-					Carilog
-				{/if}
-			</h3>
-		</div>
-		{#if lastOpened === undefined}
-			<div class="bg-nav-light dark:bg-nav-dark relative z-10 -mt-px h-fit w-full overflow-x-auto py-2">
-				<div class="pointer-events-none absolute top-0 left-0 -z-1 h-full w-full">
-					<div
-						class={clsx(
-							"bg-body-light dark:bg-body-dark border-divide-light dark:border-divide-dark absolute right-2 left-0 h-full w-[250px]",
-							"translate-x-[calc(var(--idx)*250px)] border border-b-0 transition-transform",
-							selectedCategory === null ? "rounded-tr-[12px] border-l-0" : "rounded-t-[12px] border"
-						)}
-						style:--idx={selectedCategoryIndex + 1}
-					>
-						<div class="indicator-part bottom-0 left-0 -translate-x-full -scale-x-100"></div>
-						<div class="indicator-part bottom-0 right-0 translate-x-full"></div>
-					</div>
-				</div>
-				<div class="flex w-max list-none flex-row" role="tablist" aria-orientation="horizontal">
-					<button
-						role="tab"
-						class="flex w-[250px] cursor-pointer items-center justify-center select-none"
-						aria-controls="carilog-tab"
-						aria-selected={selectedCategory === null}
-						onclick={() => changeCategory(null)}
-					>
-						All
-					</button>
-					{#each categories as category}
-						<button
-							role="tab"
-							id="carilog-category-{category}-button"
-							class="flex w-[250px] cursor-pointer items-center justify-center select-none"
-							aria-controls="carilog-tab"
-							aria-selected={selectedCategory === category}
-							onclick={() => changeCategory(category)}
-						>
-							{category}
-						</button>
-					{/each}
+		</h3>
+	</div>
+	{#if lastOpened === undefined}
+		<div class="relative -mb-px z-10 h-fit w-full overflow-x-auto py-2">
+			<div class="pointer-events-none absolute bottom-0 left-0 -z-1 h-full w-full">
+				<div
+					class={clsx(
+						"bg-body-light dark:bg-body-dark border-divide-light dark:border-divide-dark absolute right-2 left-0 h-full w-[250px]",
+						"translate-x-[calc(var(--idx)*250px)] border border-b-0 transition-transform",
+						selectedCategory === null ? "rounded-tr-[12px] border-l-0" : "rounded-t-[12px] border"
+					)}
+					style:--idx={selectedCategoryIndex + 1}
+				>
+					<div class="indicator-part right-full -scale-x-100"></div>
+					<div class="indicator-part left-full"></div>
 				</div>
 			</div>
-		{/if}
-	</div>
+			<div class="flex w-max list-none flex-row" role="tablist" aria-orientation="horizontal">
+				<button
+					role="tab"
+					class="flex w-[250px] cursor-pointer items-center justify-center select-none"
+					aria-controls="carilog-tab"
+					aria-selected={selectedCategory === null}
+					onclick={() => changeCategory(null)}
+				>
+					All
+				</button>
+				{#each categories as category}
+					<button
+						role="tab"
+						id="carilog-category-{category}-button"
+						class="flex w-[250px] cursor-pointer items-center justify-center select-none"
+						aria-controls="carilog-tab"
+						aria-selected={selectedCategory === category}
+						onclick={() => changeCategory(category)}
+					>
+						{category}
+					</button>
+				{/each}
+			</div>
+		</div>
+	{/if}
 	<div
 		role="tabpanel"
 		id="carilog-tab"
 		class={clsx(
-			"relative min-h-0 w-full min-w-0 shrink-0 grow-1 basis-0",
+			"bg-body-light dark:bg-body-dark border-t-divide-light dark:border-t-divide-dark relative min-h-0 w-full min-w-0 shrink-0 grow-1 basis-0 border-t",
 			lastOpened === undefined && "flex flex-row flex-wrap gap-0.5 overflow-auto p-10"
 		)}
 		aria-labelledby={categories.map((category) => `carilog-category-${category}-button`).join(",")}

@@ -89,7 +89,7 @@
 
 @utility indicator-part {
 	& {
-		@apply before:bg-body-light dark:before:bg-body-dark after:border-divide-light dark:after:border-divide-dark absolute bottom-0 aspect-square w-[24px];
+		@apply before:bg-body-light dark:before:bg-body-dark after:border-divide-light dark:after:border-divide-dark absolute bottom-px aspect-square w-[24px];
 	}
 	&::before {
 		@apply absolute -inset-px content-[''];
