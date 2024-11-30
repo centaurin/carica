@@ -31,7 +31,11 @@
 	::before,
 	::backdrop,
 	::file-selector-button {
-		border-color: var(--color-gray-200, currentColor);
+		@apply box-border border-gray-200;
+	}
+	button,
+	a {
+		@apply cursor-pointer;
 	}
 	details > summary {
 		@apply cursor-pointer list-none select-none;
@@ -67,5 +71,20 @@
 @utility visible-light {
 	& {
 		@apply !visible !block dark:!invisible dark:!hidden;
+	}
+}
+
+@utility indicator-part {
+	& {
+		@apply before:bg-nav-light dark:before:bg-nav-dark after:border-divide-light dark:after:border-divide-dark absolute top-0 aspect-square w-[24px];
+	}
+	&::before {
+		@apply absolute -inset-px content-[''];
+		mask: radial-gradient(circle at center, #0000 12px, #000 12px);
+		clip-path: inset(0 0 50% 50%);
+	}
+	&::after {
+		@apply absolute inset-0 rounded-[50%] border content-[''];
+		clip-path: inset(0 0 50% 50%);
 	}
 }

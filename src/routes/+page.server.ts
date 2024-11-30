@@ -35,7 +35,7 @@ export const actions = {
 			.insert(photos)
 			.values({
 				userId: event.locals.user.id,
-				type: "Banana",
+				type: "Watermelon",
 				content,
 				fileType: file.type,
 				description: "A banana is a sus yellow amogus",

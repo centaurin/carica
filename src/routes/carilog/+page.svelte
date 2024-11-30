@@ -17,6 +17,10 @@
 	let emblaApi = $state<EmblaCarouselType | null>(null);
 	const lastOpened = $derived($page.state.carilog_lastOpened);
 	const groups = $derived(groupBy(data.data, (photo) => photo.type));
+	const categories = $derived(Object.keys(groups));
+	const selectedCategoryIndex = $derived(
+		selectedCategory ? categories.indexOf(selectedCategory) : -1
+	);
 	const photos = $derived(
 		selectedCategory && selectedCategory in groups ? groups[selectedCategory]! : data.data
 	);
@@ -78,31 +82,77 @@
 
 <svelte:window onkeydown={handleArrowKeys} />
 
-<div
-	class="divide-divide-light dark:divide-divide-dark flex min-h-0 w-full min-w-0 shrink-0 grow-1 basis-0 flex-col divide-y"
->
-	<div
-		class={clsx(
-			"bg-nav-light dark:bg-nav-dark z-100 flex w-full flex-row items-center backdrop-blur-xl transition-[padding] duration-300 select-none",
-			"h-[3.25rem] px-4 text-neutral-700 dark:text-white"
-		)}
-	>
-		{#if lastOpened !== undefined}
-			<button
-				class="h-[1.75rem] w-[1.75rem] rounded-sm px-1 py-1.5 text-neutral-400 transition-colors hover:bg-neutral-300 dark:text-[#9e9e9d] dark:hover:bg-neutral-700"
-				onclick={() => switchOpenTarget(undefined)}
-			>
-				<Image systemImage="chevron.backward" />
-				<span class="sr-only">Return</span>
-			</button>
+<div class="flex min-h-0 w-full min-w-0 shrink-0 grow-1 basis-0 flex-col">
+	<div class="isolate z-100">
+		<div
+			class={clsx(
+				"bg-nav-light dark:bg-nav-dark flex w-full flex-row items-center backdrop-blur-xl transition-[padding] duration-300 select-none",
+				"border-b-divide-light dark:border-b-divide-dark h-[3.25rem] border-b px-4 text-neutral-700 dark:text-white"
+			)}
+		>
+			{#if lastOpened !== undefined}
+				<button
+					class={clsx(
+						"h-[1.75rem] w-[1.75rem] rounded-sm px-1 py-1.5 text-neutral-400 transition-colors dark:text-[#9e9e9d]",
+						"hover:bg-neutral-300 dark:hover:bg-neutral-700"
+					)}
+					onclick={() => switchOpenTarget(undefined)}
+				>
+					<Image systemImage="chevron.backward" />
+					<span class="sr-only">Return</span>
+				</button>
+			{/if}
+			<h3 class="w-fit px-2 font-semibold" style:view-transition-name="carilog-title">Papaya</h3>
+		</div>
+		{#if lastOpened === undefined}
+			<div class="relative z-10 -mt-px h-fit w-full py-2 overflow-x-auto">
+				<div class="pointer-events-none absolute top-0 left-0 -z-1 h-full w-full">
+					<div
+						class={clsx(
+							"bg-nav-light dark:bg-nav-dark border-divide-light dark:border-divide-dark absolute right-2 left-0 h-full w-[250px]",
+							"translate-x-[calc(var(--idx)*250px)] border border-t-0 transition-transform",
+							selectedCategory === null ? "rounded-br-[12px] border-l-0" : "border rounded-b-[12px]"
+						)}
+						style:--idx={selectedCategoryIndex + 1}
+					>
+						<div class="indicator-part left-0 -translate-x-full"></div>
+						<div class="indicator-part right-0 translate-x-full -scale-x-100"></div>
+					</div>
+				</div>
+				<div class="flex list-none flex-row w-max" role="tablist" aria-orientation="horizontal">
+					<button
+						role="tab"
+						class="flex w-[250px] cursor-pointer items-center justify-center select-none"
+						aria-controls="carilog-tab"
+						aria-selected={selectedCategory === null}
+						onclick={() => (selectedCategory = null)}
+					>
+						All
+					</button>
+					{#each categories as category}
+						<button
+							role="tab"
+							id="carilog-category-{category}-button"
+							class="flex w-[250px] cursor-pointer items-center justify-center select-none"
+							aria-controls="carilog-tab"
+							aria-selected={selectedCategory === category}
+							onclick={() => (selectedCategory = category)}
+						>
+							{category}
+						</button>
+					{/each}
+				</div>
+			</div>
 		{/if}
-		<h3 class="w-fit px-2 font-semibold" style:view-transition-name="carilog-title">Papaya</h3>
 	</div>
 	<div
+		role="tabpanel"
+		id="carilog-tab"
 		class={clsx(
 			"relative min-h-0 w-full min-w-0 shrink-0 grow-1 basis-0",
 			lastOpened === undefined && "flex flex-row flex-wrap gap-0.5 overflow-auto p-10"
 		)}
+		aria-labelledby={categories.map((category) => `carilog-category-${category}-button`).join(",")}
 	>
 		{#if lastOpened !== undefined}
 			{#if currentViewed !== undefined && currentViewed > 0}
