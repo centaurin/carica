@@ -10,7 +10,10 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm i -g pnpm
-RUN pnpm build
+
+RUN --mount=type=secret,id=GITHUB_CLIENT_ID,env=GITHUB_CLIENT_ID \
+--mount=type=secret,id=GITHUB_CLIENT_SECRET,env=GITHUB_CLIENT_SECRET \
+pnpm build
 
 FROM node:22-alpine AS runtime
 WORKDIR /app
