@@ -20,11 +20,19 @@
 	--color-nav-link-dark: #41413f;
 	--color-body-light: #ffffff;
 	--color-body-dark: #1e1e1e;
+	--color-error-light: #520000;
+	--color-error-dark: #f9bdbd;
 	--animate-fly: fly 100ms ease-out;
+	--animate-scroll: scroll linear both;
 	@keyframes fly {
 		from: {
 			opacity: 0;
 			transform: translateY(-1rem);
+		}
+	}
+	@keyframes scroll {
+		to {
+			translate: -50% -80%;
 		}
 	}
 }
@@ -56,7 +64,7 @@
 	}
 
 	:root:has(:popover-open) main {
-		@apply scale-95 transition-transform duration-400;
+		@apply px-[3dvw] py-[3dvw] transition-[padding] duration-400;
 	}
 
 	@media (prefers-reduced-motion) {
@@ -101,5 +109,17 @@
 	&::after {
 		@apply absolute inset-0 rounded-[50%] border content-[''];
 		clip-path: inset(50% 50% 0 0);
+	}
+}
+
+@utility text-shadow-lg {
+	& {
+		text-shadow: 0 1px 20px rgb(0, 0, 0);
+	}
+}
+
+@utility text-shadow-md {
+	& {
+		text-shadow: 0 1px 15px rgb(0, 0, 0);
 	}
 }

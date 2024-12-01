@@ -58,7 +58,7 @@ const serwist = (): Plugin[] => {
 		globDirectory: null!,
 		globPatterns: [
 			// Static assets.
-			"client/**/*.{js,css,ico,jpeg,png,svg,webp,json,webmanifest}",
+			"client/**/*.{js,css,ico,jpeg,png,svg,gif,webp,json,webmanifest}",
 			// Enable when we have prerendered pages.
 			// "prerendered/pages/**/*.html",
 			// Enable when we have server data.
