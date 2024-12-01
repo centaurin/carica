@@ -146,9 +146,9 @@
 		{/if}
 		<h3 class="w-fit px-2 font-semibold" style:view-transition-name="carilog-title">
 			{#if openedEntry}
-				{openedEntry.type} ({openedEntry.quality})
+				{openedEntry.type} ({openedEntry.quality} quality)
 			{:else if focusedEntry}
-				{focusedEntry.type} ({focusedEntry.quality})
+				{focusedEntry.type} ({focusedEntry.quality} quality)
 			{:else if selectedCategory !== null}
 				{selectedCategory}
 			{:else}

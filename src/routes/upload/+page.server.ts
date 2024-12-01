@@ -1,6 +1,6 @@
 import { fail, redirect } from "@sveltejs/kit";
 import { z } from "zod";
-import { MODEL_URL } from "$env/static/private";
+import { env } from "$env/dynamic/private";
 import { db } from "$lib/server/db/index.js";
 import { photo, photos } from "$lib/server/db/schema";
 import { takeUniqueOrThrow } from "$lib/server/utils";
@@ -25,6 +25,10 @@ export async function load(event) {
 
 export const actions = {
 	async push(event) {
+		if (!env.MODEL_URL) {
+			console.error("MODEL_URL is not configured!");
+			return fail(500, { error: "Internal Server Error" });
+		}
 		if (!event.locals.user || !event.locals.session) {
 			return fail(401, { error: "You are not authenticated!" });
 		}
@@ -35,7 +39,7 @@ export const actions = {
 		if (!form.success) {
 			return fail(400, { validationErrors: form.error.flatten().fieldErrors });
 		}
-		const modelResponse = await event.fetch(`${MODEL_URL}/api`, {
+		const modelResponse = await event.fetch(`${env.MODEL_URL}/api`, {
 			method: "POST",
 			body: formData,
 			headers: {
