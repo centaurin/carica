@@ -17,6 +17,12 @@ const pushFormSchema = z.object({
 	content: z.array(photoSchema).min(1, { message: "No photo selected!" }),
 });
 
+export async function load(event) {
+	if (event.locals.session === null || event.locals.user === null) {
+		return redirect(302, "/login");
+	}
+}
+
 export const actions = {
 	async push(event) {
 		if (!event.locals.user || !event.locals.session) {

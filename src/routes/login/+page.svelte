@@ -2,7 +2,7 @@
 	import Image from "$components/Image.svelte";
 </script>
 
-<div class="flex h-full w-full items-center justify-center">
+<div class="flex grow w-full items-center justify-center">
 	<div class="px-4 py-8">
 		<div class="grid gap-16 p-8 lg:grid-cols-2">
 			<div class="relative mt-8 ml-16 space-y-6">

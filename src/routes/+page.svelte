@@ -8,6 +8,8 @@
 	import pomegranateNormal from "$images/pomegranate.jpg?enhanced";
 	import pomegranateDetached from "$images/pomegranate-remove-bg.png?enhanced";
 	import FloatingImage from "./FloatingImage.svelte";
+
+	const { data } = $props();
 </script>
 
 <section class="flex h-fit w-full min-w-0 flex-col bg-lime-100 dark:bg-lime-950">
@@ -33,8 +35,11 @@
 			<span class="text-shadow-md ml-1 block text-2xl">
 				Upload your fruits and learn more about them with ease.
 			</span>
-			<a class="mt-8 ml-1 block w-fit rounded-md bg-white px-4 py-2 text-black" href="/upload">
-				lock in now!
+			<a
+				class="mt-8 ml-1 block w-fit rounded-md bg-white px-4 py-2 text-black"
+				href={data.user ? "/upload" : "/login"}
+			>
+				{data.user ? "start uploading!" : "lock in now!"}
 			</a>
 		</div>
 	</div>
@@ -66,7 +71,7 @@
 		<h2 class="mx-auto w-fit">
 			<a
 				class="block w-fit rounded-md bg-black px-4 py-2 text-xl text-white dark:bg-white dark:text-black"
-				href="/upload"
+				href={data.user ? "/upload" : "/login"}
 			>
 				Try Carica!
 			</a>
