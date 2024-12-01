@@ -24,7 +24,7 @@
 			loading="eager"
 		/>
 		<div class="absolute top-1/2 -translate-y-1/2 space-y-4 px-16 text-white">
-			<h1 class="text-shadow-lg relative block text-6xl font-bold">
+			<h1 class="text-shadow-lg relative block text-4xl md:text-6xl font-bold">
 				<enhanced:img
 					src="$images/favicon.png"
 					class="absolute -top-2 -left-2 -z-10 h-auto w-8"
@@ -32,7 +32,7 @@
 				/>
 				Carica
 			</h1>
-			<span class="text-shadow-md ml-1 block text-2xl">
+			<span class="text-shadow-md ml-1 block text-lg md:text-2xl">
 				Upload your fruits and learn more about them with ease.
 			</span>
 			<a

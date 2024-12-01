@@ -42,10 +42,10 @@
 		</div>
 	</div>
 	<div class="space-y-4 text-black dark:text-white">
-		<h2 class="dark:text-shadow-lg relative block text-6xl font-bold group-odd:text-right">
+		<h2 class="dark:text-shadow-lg relative block text-4xl md:text-6xl font-bold group-odd:text-right">
 			{title}
 		</h2>
-		<span class="dark:text-shadow-md ml-1 block text-2xl group-odd:text-right">
+		<span class="dark:text-shadow-md ml-1 block text-xl md:text-2xl group-odd:text-right">
 			{description}
 		</span>
 	</div>
