@@ -4,9 +4,11 @@
 	interface FloatingImageProps {
 		normal: Picture;
 		detached: Picture;
+		title: string;
+		description: string;
 	}
 
-	const { normal, detached }: FloatingImageProps = $props();
+	const { normal, detached, title, description }: FloatingImageProps = $props();
 </script>
 
 <section
@@ -39,12 +41,12 @@
 			/>
 		</div>
 	</div>
-	<span class="space-y-4 px-16 text-white">
-		<span class="text-shadow-lg relative block text-6xl font-bold group-odd:text-right">
-			Carica
+	<div class="space-y-4 px-16 text-black dark:text-white">
+		<h2 class="dark:text-shadow-lg relative block text-6xl font-bold group-odd:text-right">
+			{title}
+		</h2>
+		<span class="dark:text-shadow-md ml-1 block text-2xl group-odd:text-right">
+			{description}
 		</span>
-		<span class="text-shadow-md ml-1 block text-2xl group-odd:text-right">
-			Upload your fruits and learn more about them with ease.
-		</span>
-	</span>
+	</div>
 </section>

@@ -7,11 +7,10 @@
 	import guavaDetached from "$images/guava-remove-bg.png?enhanced";
 	import pomegranateNormal from "$images/pomegranate.jpg?enhanced";
 	import pomegranateDetached from "$images/pomegranate-remove-bg.png?enhanced";
-	import { enhance } from "$app/forms";
 	import FloatingImage from "./FloatingImage.svelte";
 </script>
 
-<div class="bg-nav-light dark:bg-nav-dark flex h-fit w-full min-w-0 flex-col">
+<section class="flex h-fit w-full min-w-0 flex-col bg-lime-100 dark:bg-lime-950">
 	<div class="relative h-4/5 w-full">
 		<img
 			src="/hero.gif"
@@ -22,29 +21,52 @@
 			fetchpriority="high"
 			loading="eager"
 		/>
-		<span class="absolute top-1/2 -translate-y-1/2 space-y-4 px-16 text-white">
-			<span class="text-shadow-lg relative block text-6xl font-bold">
+		<div class="absolute top-1/2 -translate-y-1/2 space-y-4 px-16 text-white">
+			<h1 class="text-shadow-lg relative block text-6xl font-bold">
 				<enhanced:img
 					src="$images/favicon.png"
 					class="absolute -top-2 -left-2 -z-10 h-auto w-8"
 					alt=""
 				/>
 				Carica
-			</span>
+			</h1>
 			<span class="text-shadow-md ml-1 block text-2xl">
 				Upload your fruits and learn more about them with ease.
 			</span>
 			<a class="mt-8 ml-1 block w-fit rounded-md bg-white px-4 py-2 text-black" href="/upload">
 				lock in now!
 			</a>
-		</span>
+		</div>
 	</div>
-	<FloatingImage normal={appleNormal} detached={appleDetached} />
-	<FloatingImage normal={bananaNormal} detached={bananaDetached} />
-	<FloatingImage normal={guavaNormal} detached={guavaDetached} />
-	<FloatingImage normal={pomegranateNormal} detached={pomegranateDetached} />
-	<form method="POST" action="?/push" enctype="multipart/form-data" use:enhance>
-		<input type="file" name="file" multiple />
-		<button type="submit">submit</button>
-	</form>
-</div>
+	<FloatingImage
+		normal={appleNormal}
+		detached={appleDetached}
+		title="build a collection!"
+		description="Carica saves all of your previously taken photos of fruits. Delicious!"
+	/>
+	<FloatingImage
+		normal={bananaNormal}
+		detached={bananaDetached}
+		title="buying fruits?"
+		description="Carica uses a homegrown model to detect whether a fruit is still in good condition."
+	/>
+	<FloatingImage
+		normal={guavaNormal}
+		detached={guavaDetached}
+		title="food consumption!"
+		description="By taking photos, you keep a track of how healthy you've been."
+	/>
+	<FloatingImage
+		normal={pomegranateNormal}
+		detached={pomegranateDetached}
+		title="try now?"
+		description="Above all, Carica is a free (demo) project! So... give us a few secs?"
+	/>
+	<section class="w-full py-20">
+		<h2 class="w-fit mx-auto">
+			<a class="block w-fit rounded-md bg-white px-4 py-2 text-xl text-black" href="/upload">
+				Try Carica!
+			</a>
+		</h2>
+	</section>
+</section>
