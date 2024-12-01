@@ -16,6 +16,8 @@
 	--color-neutral-250: #dddddd;
 	--color-nav-light: #e7e7e5;
 	--color-nav-dark: #292927;
+	--color-nav-link-light: #cececc;
+	--color-nav-link-dark: #41413f;
 	--color-body-light: #ffffff;
 	--color-body-dark: #1e1e1e;
 	--animate-fly: fly 100ms ease-out;
@@ -71,7 +73,7 @@
 
 @utility nav-button {
 	& {
-		@apply flex cursor-pointer items-center justify-center rounded-full bg-transparent p-3 duration-100 hover:bg-[#cececc]/80 dark:hover:bg-[#41413F]/80;
+		@apply flex cursor-pointer items-center justify-center rounded-full bg-transparent p-3 duration-100 hover:bg-nav-link-dark/80;
 	}
 }
 
@@ -89,7 +91,7 @@
 
 @utility indicator-part {
 	& {
-		@apply before:bg-body-light dark:before:bg-body-dark after:border-divide-light dark:after:border-divide-dark absolute bottom-0 aspect-square w-[24px];
+		@apply before:bg-body-light dark:before:bg-body-dark after:border-divide-light dark:after:border-divide-dark absolute bottom-px aspect-square w-[24px];
 	}
 	&::before {
 		@apply absolute -inset-px content-[''];

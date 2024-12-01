@@ -43,11 +43,14 @@
 	bind:this={sidebar}
 	id="nav"
 	class={clsx(
-		"bg-nav-light dark:bg-nav-dark top-[unset] bottom-0 left-0 z-[321032] h-[85dvh] w-dvw rounded-t-2xl px-8 transition-[transform,translate,width]",
+		"text-white bg-nav-dark relative top-[unset] bottom-0 left-0 z-[321032] h-[85dvh] w-dvw rounded-t-2xl px-8 transition-[transform,translate,width]",
 		"transition-discrete duration-400 backdrop:bg-black/40 md:sticky md:flex md:h-dvh md:w-64 md:shrink-0 md:flex-col md:rounded-none md:py-8 lg:w-80"
 	)}
 	popover="auto"
 >
+	<div class="absolute top-0 left-0 -z-10 h-full w-full blur-2xl brightness-75 *:contents">
+		<enhanced:img src="$images/fruits.jpg" alt="" class="h-full w-full object-fill" />
+	</div>
 	<button
 		popovertarget="nav"
 		popovertargetaction="hide"
@@ -73,8 +76,8 @@
 						class={clsx(
 							"transition-colors duration-150",
 							isActive
-								? "text-black dark:text-white"
-								: "text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white"
+								? "text-white"
+								: "text-neutral-300 hover:text-white"
 						)}
 						href={link}
 						aria-current={isActive}

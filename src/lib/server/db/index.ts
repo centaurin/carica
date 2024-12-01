@@ -9,6 +9,8 @@ export let db: ReturnType<typeof drizzle>;
 
 if (!building) {
 	if (!env.DATABASE_URL) throw new Error("DATABASE_URL is not set");
-	client = postgres(env.DATABASE_URL);
+	client = postgres(env.DATABASE_URL, {
+		path: env.DATABASE_PATH,
+	});
 	db = drizzle(client);
 }
