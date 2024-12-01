@@ -32,6 +32,7 @@ export const photos = pgTable(
 			.references(() => users.id, { onDelete: "cascade" }),
 		type: text("type").notNull(),
 		quality: text("quality").notNull(),
+		createdAt: timestamp("created_at").notNull().defaultNow(),
 	},
 	(table) => [index("photos_user_idx").on(table.userId), index("photos_type_idx").on(table.type)]
 );

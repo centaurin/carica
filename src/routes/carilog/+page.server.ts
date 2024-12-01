@@ -13,6 +13,7 @@ export const load = async (event) => {
 			id: photos.id,
 			type: photos.type,
 			quality: photos.quality,
+			createdAt: photos.createdAt,
 			photos: jsonAggBuildObject({
 				fileType: photo.id,
 				content: photo.content,

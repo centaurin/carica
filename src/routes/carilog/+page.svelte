@@ -8,6 +8,7 @@
 	import { kbdblclick } from "$lib/actions/kbdblclick";
 	import { clsx } from "$lib/clsx";
 	import { groupBy } from "$lib/utils.js";
+	import DateTime from "$components/DateTime.svelte";
 
 	const { data } = $props();
 
@@ -146,9 +147,9 @@
 		{/if}
 		<h3 class="w-fit px-2 font-semibold" style:view-transition-name="carilog-title">
 			{#if openedEntry}
-				{openedEntry.type} ({openedEntry.quality} quality)
+				{openedEntry.type} ({openedEntry.quality} quality) •<DateTime date={openedEntry.createdAt} />
 			{:else if focusedEntry}
-				{focusedEntry.type} ({focusedEntry.quality} quality)
+				{focusedEntry.type} ({focusedEntry.quality} quality) • <DateTime date={focusedEntry.createdAt} />
 			{:else if selectedCategory !== null}
 				{selectedCategory}
 			{:else}
