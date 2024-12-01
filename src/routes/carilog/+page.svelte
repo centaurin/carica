@@ -88,7 +88,9 @@
 
 <svelte:window onkeydown={handleArrowKeys} />
 
-<div class="bg-nav-light dark:bg-nav-dark flex min-h-0 w-full min-w-0 shrink-0 grow-1 basis-0 flex-col">
+<div
+	class="bg-nav-light dark:bg-nav-dark flex min-h-0 w-full min-w-0 shrink-0 grow-1 basis-0 flex-col"
+>
 	<div
 		class={clsx(
 			"flex w-full flex-row items-center backdrop-blur-xl transition-[padding] duration-300 select-none",
@@ -114,18 +116,20 @@
 			{:else if lastFocused !== undefined}
 				{@const entry = entries[lastFocused]}
 				{entry.type} ({entry.quality})
+			{:else if selectedCategory !== null}
+				{selectedCategory}
 			{:else}
 				Carilog
 			{/if}
 		</h3>
 	</div>
 	{#if lastOpened === undefined}
-		<div class="relative -mb-px z-10 h-fit w-full overflow-x-auto py-2">
+		<div class="relative z-10 -mb-px h-fit w-full overflow-x-auto py-2">
 			<div class="pointer-events-none absolute bottom-0 left-0 -z-1 h-full w-full">
 				<div
 					class={clsx(
-						"bg-body-light dark:bg-body-dark border-divide-light dark:border-divide-dark absolute right-2 left-0 h-full w-[250px]",
-						"translate-x-[calc(var(--idx)*250px)] border border-b-0 transition-transform",
+						"bg-body-light dark:bg-body-dark border-divide-light dark:border-divide-dark absolute right-2 left-0 h-full w-[150px] lg:w-[250px]",
+						"translate-x-[calc(var(--idx)*150px)] lg:translate-x-[calc(var(--idx)*250px)] border border-b-0 transition-transform",
 						selectedCategory === null ? "rounded-tr-[12px] border-l-0" : "rounded-t-[12px] border"
 					)}
 					style:--idx={selectedCategoryIndex + 1}
@@ -137,7 +141,7 @@
 			<div class="flex w-max list-none flex-row" role="tablist" aria-orientation="horizontal">
 				<button
 					role="tab"
-					class="flex w-[250px] cursor-pointer items-center justify-center select-none"
+					class="flex w-[150px] lg:w-[250px] cursor-pointer items-center justify-center select-none"
 					aria-controls="carilog-tab"
 					aria-selected={selectedCategory === null}
 					onclick={() => changeCategory(null)}
@@ -148,7 +152,7 @@
 					<button
 						role="tab"
 						id="carilog-category-{category}-button"
-						class="flex w-[250px] cursor-pointer items-center justify-center select-none"
+						class="flex w-[150px] lg:w-[250px] cursor-pointer items-center justify-center select-none"
 						aria-controls="carilog-tab"
 						aria-selected={selectedCategory === category}
 						onclick={() => changeCategory(category)}

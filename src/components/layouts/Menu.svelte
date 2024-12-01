@@ -30,7 +30,7 @@
 		<div
 			id="navbar-usermenu"
 			class={clsx(
-				"bg-nav-light dark:bg-nav-dark absolute mt-2 rounded-[10px] shadow-lg transition ease-in-out [&>*]:p-1",
+				"bg-nav-light dark:bg-nav-dark text-black dark:text-white absolute mt-2 rounded-[10px] shadow-lg transition ease-in-out [&>*]:p-1",
 				"border-divide-light dark:border-divide-dark dark:bg-wood-800 bg-wood-300 border-[0.25px]",
 				"divide-divide-light dark:divide-divide-dark divide-y ring-1 ring-black/5 focus:outline-none",
 				"animate-fly-up right-0 bottom-full z-50 w-52 origin-top-right -translate-y-4"
