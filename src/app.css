@@ -21,10 +21,16 @@
 	--color-body-light: #ffffff;
 	--color-body-dark: #1e1e1e;
 	--animate-fly: fly 100ms ease-out;
+	--animate-scroll: scroll linear both;
 	@keyframes fly {
 		from: {
 			opacity: 0;
 			transform: translateY(-1rem);
+		}
+	}
+	@keyframes scroll {
+		to {
+			translate: -50% -80%;
 		}
 	}
 }

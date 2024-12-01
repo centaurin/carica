@@ -43,8 +43,8 @@
 	bind:this={sidebar}
 	id="nav"
 	class={clsx(
-		"text-white bg-nav-dark relative top-[unset] bottom-0 left-0 z-[321032] h-[85dvh] w-dvw rounded-t-2xl px-8 transition-[transform,translate,width]",
-		"transition-discrete duration-400 backdrop:bg-black/40 md:sticky md:flex md:h-dvh md:w-64 md:shrink-0 md:flex-col md:rounded-none md:py-8 lg:w-80"
+		"text-white bg-nav-dark relative top-[unset] bottom-0 left-0 z-[321032] h-[85dvh] w-dvw rounded-t-2xl px-8 transition-[transform,translate,width] transition-discrete",
+		"duration-400 backdrop:bg-black/40 md:sticky md:flex md:h-dvh md:top-0 bottom-[unset] md:w-64 md:shrink-0 md:flex-col md:rounded-none md:py-8 lg:w-80"
 	)}
 	popover="auto"
 >
