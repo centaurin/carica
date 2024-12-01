@@ -34,9 +34,7 @@
 </script>
 
 <SvgBarrel />
-<div
-	class="divide-divide-light dark:divide-divide-dark flex h-fit min-h-screen w-full flex-col md:flex-row md:divide-x"
->
+<div class="flex h-fit min-h-screen w-full flex-col md:flex-row">
 	<Sidebar />
 	<main class="flex h-full w-full flex-1 md:contents">
 		<SidebarTrigger />

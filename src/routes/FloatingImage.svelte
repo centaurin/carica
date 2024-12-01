@@ -12,7 +12,7 @@
 </script>
 
 <section
-	class="group flex h-dvh max-w-full flex-row items-center gap-12 px-20 perspective-[100dvh] transform-3d **:transform-3d odd:flex-row-reverse"
+	class="group flex h-dvh max-w-full flex-row flex-wrap items-center gap-12 px-20 perspective-[100dvh] transform-3d **:transform-3d odd:flex-row-reverse"
 >
 	<div
 		class="relative aspect-square w-75 transition-transform duration-200"
@@ -41,7 +41,7 @@
 			/>
 		</div>
 	</div>
-	<div class="space-y-4 px-16 text-black dark:text-white">
+	<div class="space-y-4 text-black dark:text-white">
 		<h2 class="dark:text-shadow-lg relative block text-6xl font-bold group-odd:text-right">
 			{title}
 		</h2>

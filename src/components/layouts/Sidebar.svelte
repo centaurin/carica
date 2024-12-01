@@ -17,7 +17,10 @@
 			[
 				{ label: "Home", link: "/" },
 				...($page.data.user
-					? [{ label: "Carilog", link: "/carilog" }]
+					? [
+							{ label: "Carilog", link: "/carilog" },
+							{ label: "Upload", link: "/upload" },
+						]
 					: [{ label: "Login", link: "/login" }]),
 			] satisfies SidebarLinkEntry[]
 		).map(({ link, ...rest }) => ({
@@ -43,8 +46,8 @@
 	bind:this={sidebar}
 	id="nav"
 	class={clsx(
-		"text-white bg-nav-dark relative top-[unset] bottom-0 left-0 z-[321032] h-[85dvh] w-dvw rounded-t-2xl px-8 transition-[transform,translate,width] transition-discrete",
-		"duration-400 backdrop:bg-black/40 md:sticky md:flex md:h-dvh md:top-0 bottom-[unset] md:w-64 md:shrink-0 md:flex-col md:rounded-none md:py-8 lg:w-80"
+		"bg-nav-dark fixed top-[unset] bottom-0 left-0 z-[321032] h-[85dvh] w-dvw rounded-t-2xl px-8 text-white transition-[transform,translate,width] transition-discrete",
+		"duration-400 backdrop:bg-black/40 md:sticky md:top-0 md:bottom-[unset] md:flex md:h-dvh md:w-64 md:shrink-0 md:flex-col md:rounded-none md:py-8 lg:w-80"
 	)}
 	popover="auto"
 >
@@ -75,9 +78,7 @@
 					<a
 						class={clsx(
 							"transition-colors duration-150",
-							isActive
-								? "text-white"
-								: "text-neutral-300 hover:text-white"
+							isActive ? "text-white" : "text-neutral-300 hover:text-white"
 						)}
 						href={link}
 						aria-current={isActive}

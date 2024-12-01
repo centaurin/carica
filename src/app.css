@@ -20,6 +20,8 @@
 	--color-nav-link-dark: #41413f;
 	--color-body-light: #ffffff;
 	--color-body-dark: #1e1e1e;
+	--color-error-light: #520000;
+	--color-error-dark: #f9bdbd;
 	--animate-fly: fly 100ms ease-out;
 	--animate-scroll: scroll linear both;
 	@keyframes fly {
@@ -62,7 +64,7 @@
 	}
 
 	:root:has(:popover-open) main {
-		@apply scale-95 transition-transform duration-400;
+		@apply px-[3dvw] py-[3dvw] transition-[padding] duration-400;
 	}
 
 	@media (prefers-reduced-motion) {

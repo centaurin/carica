@@ -63,8 +63,11 @@
 		description="Above all, Carica is a free (demo) project! So... give us a few secs?"
 	/>
 	<section class="w-full py-20">
-		<h2 class="w-fit mx-auto">
-			<a class="block w-fit rounded-md bg-white px-4 py-2 text-xl text-black" href="/upload">
+		<h2 class="mx-auto w-fit">
+			<a
+				class="block w-fit rounded-md bg-black px-4 py-2 text-xl text-white dark:bg-white dark:text-black"
+				href="/upload"
+			>
 				Try Carica!
 			</a>
 		</h2>
