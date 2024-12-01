@@ -3,7 +3,7 @@
 set -e
 
 # Deploy migrations
-npx --yes drizzle-kit push
+npm run db:migrate
 
 # Run the server
 npm run start
