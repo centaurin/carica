@@ -24,6 +24,24 @@
 	const entries = $derived(
 		selectedCategory && selectedCategory in groups ? groups[selectedCategory]! : data.data
 	);
+	const bgColors = $derived.by<[string, string]>(() => {
+		switch (selectedCategory) {
+			case "Apple":
+				return ["#fef2f2", "#450a0a"];
+			case "Banana":
+				return ["#fefce8", "#422006"];
+			case "Guava":
+				return ["#ecfdf5", "#022c22"];
+			case "Lime":
+				return ["#f7fee7", "#1a2e05"];
+			case "Orange":
+				return ["#fff7ed", "#431407"];
+			case "Pomegranate":
+				return ["#fff1f2", "#4c0519"];
+			default:
+				return ["#ffffff", "#1e1e1e"];
+		}
+	});
 
 	$effect(() => {
 		if (!emblaApi) return;
@@ -128,11 +146,13 @@
 			<div class="pointer-events-none absolute bottom-0 left-0 -z-1 h-full w-full">
 				<div
 					class={clsx(
-						"bg-body-light dark:bg-body-dark border-divide-light dark:border-divide-dark absolute right-2 left-0 h-full w-[150px] lg:w-[250px]",
-						"translate-x-[calc(var(--idx)*150px)] lg:translate-x-[calc(var(--idx)*250px)] border border-b-0 transition-transform",
+						"border-divide-light dark:border-divide-dark absolute right-2 left-0 h-full w-[150px] bg-(--bg-light) lg:w-[250px] dark:bg-(--bg-dark)",
+						"translate-x-[calc(var(--idx)*150px)] border border-b-0 transition-[translate,background-color] duration-150 lg:translate-x-[calc(var(--idx)*250px)]",
 						selectedCategory === null ? "rounded-tr-[12px] border-l-0" : "rounded-t-[12px] border"
 					)}
 					style:--idx={selectedCategoryIndex + 1}
+					style:--bg-light={bgColors[0]}
+					style:--bg-dark={bgColors[1]}
 				>
 					<div class="indicator-part right-full -scale-x-100"></div>
 					<div class="indicator-part left-full"></div>
@@ -141,7 +161,7 @@
 			<div class="flex w-max list-none flex-row" role="tablist" aria-orientation="horizontal">
 				<button
 					role="tab"
-					class="flex w-[150px] lg:w-[250px] cursor-pointer items-center justify-center select-none"
+					class="flex w-[150px] cursor-pointer items-center justify-center select-none lg:w-[250px]"
 					aria-controls="carilog-tab"
 					aria-selected={selectedCategory === null}
 					onclick={() => changeCategory(null)}
@@ -152,7 +172,7 @@
 					<button
 						role="tab"
 						id="carilog-category-{category}-button"
-						class="flex w-[150px] lg:w-[250px] cursor-pointer items-center justify-center select-none"
+						class="flex w-[150px] cursor-pointer items-center justify-center select-none lg:w-[250px]"
 						aria-controls="carilog-tab"
 						aria-selected={selectedCategory === category}
 						onclick={() => changeCategory(category)}
@@ -167,9 +187,12 @@
 		role="tabpanel"
 		id="carilog-tab"
 		class={clsx(
-			"bg-body-light dark:bg-body-dark border-t-divide-light dark:border-t-divide-dark relative min-h-0 w-full min-w-0 shrink-0 grow-1 basis-0 border-t",
+			"border-t-divide-light dark:border-t-divide-dark relative min-h-0 w-full min-w-0 shrink-0 grow-1 basis-0 border-t",
+			"bg-(--bg-light) transition-colors duration-150 dark:bg-(--bg-dark)",
 			lastOpened === undefined && "flex flex-row flex-wrap gap-0.5 overflow-auto p-10"
 		)}
+		style:--bg-light={bgColors[0]}
+		style:--bg-dark={bgColors[1]}
 		aria-labelledby={categories.map((category) => `carilog-category-${category}-button`).join(",")}
 	>
 		{#if lastOpened !== undefined}
@@ -236,7 +259,7 @@
 				</div>
 			</div>
 		{:else}
-			{#each entries as entry, idx}
+			{#each entries as entry, idx (entry.id)}
 				<!-- svelte-ignore a11y_autofocus -->
 				<button
 					class="flex aspect-square h-fit w-[calc((100%-0.25rem)/3)] items-center justify-center overflow-hidden select-none md:w-[calc((100%-0.5rem)/5)] lg:w-[calc((100%-1rem)/9)]"

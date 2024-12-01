@@ -21,6 +21,8 @@ RUN pnpm build
 
 FROM node:22-alpine AS runtime
 WORKDIR /app
+COPY drizzle/ ./drizzle
+COPY scripts/start.sh .
 COPY --from=builder /app/build ./build
 COPY --from=builder /app/package.json ./
-CMD ["npm", "run", "start"]
+CMD ["sh", "start.sh"]

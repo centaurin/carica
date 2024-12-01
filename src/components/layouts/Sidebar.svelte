@@ -48,7 +48,7 @@
 	)}
 	popover="auto"
 >
-	<div class="absolute top-0 left-0 -z-10 h-full w-full blur-2xl brightness-75 *:contents">
+	<div class="absolute top-0 left-0 -z-10 h-full w-full blur-2xl brightness-70 *:contents">
 		<enhanced:img src="$images/fruits.jpg" alt="" class="h-full w-full object-fill" />
 	</div>
 	<button
