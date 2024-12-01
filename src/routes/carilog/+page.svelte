@@ -147,7 +147,7 @@
 				<div
 					class={clsx(
 						"border-divide-light dark:border-divide-dark absolute right-2 left-0 h-full w-[150px] bg-(--bg-light) lg:w-[250px] dark:bg-(--bg-dark)",
-						"translate-x-[calc(var(--idx)*150px)] border border-b-0 transition-transform lg:translate-x-[calc(var(--idx)*250px)]",
+						"translate-x-[calc(var(--idx)*150px)] border border-b-0 transition-[translate,background-color] duration-150 lg:translate-x-[calc(var(--idx)*250px)]",
 						selectedCategory === null ? "rounded-tr-[12px] border-l-0" : "rounded-t-[12px] border"
 					)}
 					style:--idx={selectedCategoryIndex + 1}
@@ -187,7 +187,8 @@
 		role="tabpanel"
 		id="carilog-tab"
 		class={clsx(
-			"border-t-divide-light dark:border-t-divide-dark relative min-h-0 w-full min-w-0 shrink-0 grow-1 basis-0 border-t bg-(--bg-light) dark:bg-(--bg-dark)",
+			"border-t-divide-light dark:border-t-divide-dark relative min-h-0 w-full min-w-0 shrink-0 grow-1 basis-0 border-t",
+			"bg-(--bg-light) transition-colors duration-150 dark:bg-(--bg-dark)",
 			lastOpened === undefined && "flex flex-row flex-wrap gap-0.5 overflow-auto p-10"
 		)}
 		style:--bg-light={bgColors[0]}
@@ -258,7 +259,7 @@
 				</div>
 			</div>
 		{:else}
-			{#each entries as entry, idx}
+			{#each entries as entry, idx (entry.id)}
 				<!-- svelte-ignore a11y_autofocus -->
 				<button
 					class="flex aspect-square h-fit w-[calc((100%-0.25rem)/3)] items-center justify-center overflow-hidden select-none md:w-[calc((100%-0.5rem)/5)] lg:w-[calc((100%-1rem)/9)]"

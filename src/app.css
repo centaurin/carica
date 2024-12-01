@@ -94,7 +94,7 @@
 		@apply after:border-divide-light dark:after:border-divide-dark absolute bottom-px aspect-square w-[24px] before:bg-(--bg-light) dark:before:bg-(--bg-dark);
 	}
 	&::before {
-		@apply absolute -inset-px content-[''];
+		@apply absolute -inset-px transition-colors duration-150 content-[''];
 		mask: radial-gradient(circle at center, #0000 12px, #000 12px);
 		clip-path: inset(50% 50% 0 0);
 	}
