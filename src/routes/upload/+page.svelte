@@ -18,22 +18,22 @@
 <div class="relative flex w-full grow items-center justify-center">
 	<enhanced:img
 		src="$images/apple.jpg"
-		class="absolute top-1/5 left-1/10 -z-10 w-40 rotate-20 border-10 border-white md:top-1/3 md:left-1/5"
+		class="absolute top-1/5 left-1/10 -z-10 w-40 rotate-20 border-10 border-white md:top-1/4 md:left-1/6"
 		alt=""
 	/>
 	<enhanced:img
 		src="$images/banana.jpg"
-		class="absolute top-2/3 left-1/5 -z-10 w-32 -rotate-10 border-8 border-white"
+		class="absolute top-2/3 left-1/5 -z-10 w-36 -rotate-10 border-9 border-white"
 		alt=""
 	/>
 	<enhanced:img
 		src="$images/guava.jpeg"
-		class="absolute top-1/8 right-1/10 -z-10 w-52 -rotate-10 border-12 border-white md:top-1/3 md:right-1/5"
+		class="absolute top-1/8 right-1/10 -z-10 w-52 -rotate-10 border-12 border-white md:top-1/5 md:right-1/7"
 		alt=""
 	/>
 	<enhanced:img
 		src="$images/pomegranate.jpg"
-		class="absolute top-2/3 right-1/5 md:right-2/5 -z-10 w-44 rotate-30 border-11 border-white"
+		class="absolute top-2/3 right-1/5 md:right-1/4 -z-10 w-44 -rotate-30 border-11 border-white"
 		alt=""
 	/>
 	<form

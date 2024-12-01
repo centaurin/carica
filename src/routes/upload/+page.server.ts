@@ -19,7 +19,9 @@ const pushFormSchema = z.object({
 
 export const actions = {
 	async push(event) {
-		if (!event.locals.user || !event.locals.session) return;
+		if (!event.locals.user || !event.locals.session) {
+			return fail(401, { error: "You are not authenticated!" });
+		}
 		const formData = await event.request.formData();
 		const form = await pushFormSchema.spa({
 			content: formData.getAll("file"),
