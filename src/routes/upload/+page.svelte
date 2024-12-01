@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from "$app/forms";
+	import { clsx } from "$lib/clsx";
 	import { allowedFileTypes } from "$lib/constants";
 	import Dropzone from "svelte-file-dropzone";
 
@@ -44,6 +45,7 @@
 		use:enhance
 	>
 		<h1 class="text-2xl font-bold">Upload</h1>
+		<span class="italic">All of these pictures should be of one fruit at a time.</span>
 		<Dropzone
 			accept={allowedFileTypes}
 			multiple
@@ -80,7 +82,10 @@
 			{/each}
 		</ol>
 		<button
-			class="block w-fit rounded-md bg-black px-4 py-2 text-white dark:bg-white dark:text-black"
+			class={clsx(
+				"block w-fit rounded-md bg-black px-4 py-2 text-white transition-colors hover:bg-neutral-800",
+				"dark:bg-white dark:text-black dark:hover:bg-neutral-200"
+			)}
 			type="submit"
 		>
 			Submit

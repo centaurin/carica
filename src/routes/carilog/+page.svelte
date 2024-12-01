@@ -2,7 +2,7 @@
 	import type { EmblaCarouselType } from "embla-carousel";
 	import emblaCarousel from "embla-carousel-svelte";
 	import { tick } from "svelte";
-	import { pushState } from "$app/navigation";
+	import { goto, pushState } from "$app/navigation";
 	import { page } from "$app/stores";
 	import Image from "$components/Image.svelte";
 	import { kbdblclick } from "$lib/actions/kbdblclick";
@@ -15,7 +15,18 @@
 	let lastFocused = $state<number | undefined>(undefined);
 	let currentViewed = $state<number | undefined>(undefined);
 	let emblaApi = $state<EmblaCarouselType | null>(null);
-	const lastOpened = $derived($page.state.carilog_lastOpened);
+	const lastOpened = $derived.by(() => {
+		if ($page.state.carilog_lastOpened) {
+			return $page.state.carilog_lastOpened;
+		}
+		const id = $page.url.searchParams.has("id")
+			? Number.parseInt($page.url.searchParams.get("id")!)
+			: null;
+		if (id !== null && !Number.isNaN(id)) {
+			return id;
+		}
+		return undefined;
+	});
 	const groups = $derived(groupBy(data.data, (entry) => entry.type));
 	const categories = $derived(Object.keys(groups));
 	const selectedCategoryIndex = $derived(
@@ -23,6 +34,12 @@
 	);
 	const entries = $derived(
 		selectedCategory && selectedCategory in groups ? groups[selectedCategory]! : data.data
+	);
+	const openedEntry = $derived(
+		lastOpened !== undefined ? entries.find((entry) => entry.id === lastOpened) : undefined
+	);
+	const focusedEntry = $derived(
+		lastFocused !== undefined ? entries.find((entry) => entry.id === lastFocused) : undefined
 	);
 	const bgColors = $derived.by<[string, string]>(() => {
 		switch (selectedCategory) {
@@ -57,6 +74,7 @@
 
 	const onEmbiaInit = (event: CustomEvent<EmblaCarouselType>) => {
 		emblaApi = event.detail;
+		currentViewed = emblaApi.selectedScrollSnap();
 		emblaApi.on("select", (ev) => {
 			currentViewed = ev.selectedScrollSnap();
 			lastFocused = currentViewed;
@@ -78,23 +96,22 @@
 		}
 	};
 
-	const switchOpenTarget = async (openTarget: number | undefined) => {
-		if (!document.startViewTransition) {
+	const switchOpenTarget = (openTarget: number | undefined) => {
+		const update = async () => {
 			lastFocused = lastOpened;
+			const url = new URL($page.url);
+			url.searchParams.delete("id");
+			goto(url);
 			pushState("", {
 				carilog_lastOpened: openTarget,
 			});
 			await tick();
 			currentViewed = openTarget === undefined ? undefined : 0;
+		};
+		if (!document.startViewTransition) {
+			update();
 		} else {
-			document.startViewTransition(async () => {
-				lastFocused = lastOpened;
-				pushState("", {
-					carilog_lastOpened: openTarget,
-				});
-				await tick();
-				currentViewed = openTarget === undefined ? undefined : 0;
-			});
+			document.startViewTransition(update);
 		}
 	};
 
@@ -128,12 +145,10 @@
 			</button>
 		{/if}
 		<h3 class="w-fit px-2 font-semibold" style:view-transition-name="carilog-title">
-			{#if lastOpened !== undefined}
-				{@const entry = entries[lastOpened]}
-				{entry.type} ({entry.quality})
-			{:else if lastFocused !== undefined}
-				{@const entry = entries[lastFocused]}
-				{entry.type} ({entry.quality})
+			{#if openedEntry}
+				{openedEntry.type} ({openedEntry.quality})
+			{:else if focusedEntry}
+				{focusedEntry.type} ({focusedEntry.quality})
 			{:else if selectedCategory !== null}
 				{selectedCategory}
 			{:else}
@@ -195,8 +210,7 @@
 		style:--bg-dark={bgColors[1]}
 		aria-labelledby={categories.map((category) => `carilog-category-${category}-button`).join(",")}
 	>
-		{#if lastOpened !== undefined}
-			{@const entry = entries[lastOpened]}
+		{#if openedEntry}
 			{#if currentViewed !== undefined && currentViewed > 0}
 				<div
 					class="group absolute top-1/2 left-0 z-10 flex h-4/5 -translate-y-1/2 items-center px-12"
@@ -213,7 +227,7 @@
 					</button>
 				</div>
 			{/if}
-			{#if currentViewed !== undefined && currentViewed < entry.photos.length - 1}
+			{#if currentViewed !== undefined && currentViewed < openedEntry.photos.length - 1}
 				<div
 					class="group absolute top-1/2 right-0 z-10 flex h-4/5 -translate-y-1/2 items-center px-12"
 				>
@@ -243,13 +257,13 @@
 				onemblaInit={onEmbiaInit}
 			>
 				<div class="flex h-full flex-row">
-					{#each entry.photos as photo, idx}
+					{#each openedEntry.photos as photo, idx}
 						{@const isCurrentViewed = currentViewed === idx}
 						<div class="flex h-full min-w-0 flex-[0_0_100%] items-center justify-center">
 							<img
 								src="data:{photo.fileType};base64,{photo.content}"
 								class="max-h-full max-w-full object-contain select-none"
-								style:view-transition-name={isCurrentViewed ? `photo-${entry.id}` : undefined}
+								style:view-transition-name={isCurrentViewed ? `photo-${openedEntry.id}` : undefined}
 								alt="Carica Papaya (Good quality)"
 								decoding="async"
 								loading="lazy"
@@ -259,22 +273,22 @@
 				</div>
 			</div>
 		{:else}
-			{#each entries as entry, idx (entry.id)}
+			{#each entries as entry (entry.id)}
 				<!-- svelte-ignore a11y_autofocus -->
 				<button
 					class="flex aspect-square h-fit w-[calc((100%-0.25rem)/3)] items-center justify-center overflow-hidden select-none md:w-[calc((100%-0.5rem)/5)] lg:w-[calc((100%-1rem)/9)]"
 					aria-label="Image"
-					onclick={() => (lastFocused = idx)}
-					autofocus={lastFocused === idx}
-					ondblclick={() => switchOpenTarget(idx)}
-					use:kbdblclick={() => switchOpenTarget(idx)}
+					onclick={() => (lastFocused = entry.id)}
+					autofocus={lastFocused === entry.id}
+					ondblclick={() => switchOpenTarget(entry.id)}
+					use:kbdblclick={() => switchOpenTarget(entry.id)}
 				>
 					<span class="relative h-4/5 w-4/5">
 						<img
 							src="data:{entry.photos[0].fileType};base64,{entry.photos[0].content}"
 							class={clsx(
 								"absolute top-1/2 left-1/2 mx-auto h-fit max-h-full w-fit max-w-full -translate-x-1/2 -translate-y-1/2 object-contain outline-offset-[1px] select-none",
-								lastFocused === idx && "rounded-[0.125rem] outline-3 outline-[#0761d1]"
+								lastFocused === entry.id && "rounded-[0.125rem] outline-3 outline-[#0761d1]"
 							)}
 							style:view-transition-name="photo-{entry.id}"
 							alt="Carica Papaya (Good quality)"
